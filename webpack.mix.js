@@ -19,6 +19,7 @@ mix.ts("resources/js/app.tsx", "public/js")
     ])
     .alias({
         "@": "resources/js",
+        ziggy: "vendor/tightenco/ziggy/dist",
     });
 
 if (mix.inProduction()) {
