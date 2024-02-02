@@ -8,9 +8,10 @@ import * as React from "react";
 
 interface ICompanyLogo {
     isLink?: boolean;
+    className?: string;
 }
 
-export default function CompanyLogo({ isLink }: ICompanyLogo) {
+export default function CompanyLogo({ isLink, ...props }: ICompanyLogo) {
     const isScreenLg = checkScreen(ScreenSize.lg);
 
     const sizeLogo = isScreenLg ? 60 : 30;
@@ -33,7 +34,10 @@ export default function CompanyLogo({ isLink }: ICompanyLogo) {
         );
     }
     return (
-        <div className="font-poppins text-[20px] lg:text-[40px] text-5xl leading-normal  text-primary font-extrabold flex items-center">
+        <div
+            className="font-poppins text-[20px] lg:text-[40px] text-5xl leading-normal  text-primary font-extrabold flex items-center"
+            {...props}
+        >
             <span className=" mr-1 lg:mr-5 ">
                 <img
                     src={BedataLogo}
