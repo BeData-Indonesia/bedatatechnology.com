@@ -46,9 +46,8 @@ Route::prefix('/services')->group(function () {
 });
 
 Route::prefix('/admin')->group(function (){
-        Route::get('/',function (){
-            return Inertia::render('admin/dashboard',[]);
-    });
+        Route::get('/',[ContactUsController::class,"show"]);
+        Route::get('/articles',[ContactUsController::class,"show"]);
 });
 
 Route::get('/about-us', function () {

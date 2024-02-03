@@ -17,7 +17,8 @@ class ContactUsController extends Controller
     public function index()
     {
         //
-        $contactUsData = new ContactUsCollection(ContactUs::paginate(5));
+        $contactUsData = new ContactUsCollection(ContactUs::paginate(10));
+        dd($contactUsData);
         
         // return Inertia::render('Home', [
         //     'title' => "CUY UNIVERSE HOME",
@@ -63,7 +64,10 @@ class ContactUsController extends Controller
      */
     public function show(ContactUs $contactUs)
     {
-        //
+        $contactUsData = new ContactUsCollection(ContactUs::paginate(10));
+        return Inertia::render('admin/dashboard', [
+            'contactUsData' => $contactUsData,
+        ]);
     }
 
     /**

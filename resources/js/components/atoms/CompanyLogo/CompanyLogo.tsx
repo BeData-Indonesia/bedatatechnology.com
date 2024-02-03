@@ -9,9 +9,14 @@ import * as React from "react";
 interface ICompanyLogo {
     isLink?: boolean;
     className?: string;
+    withCompanyName?: boolean;
 }
 
-export default function CompanyLogo({ isLink, ...props }: ICompanyLogo) {
+export default function CompanyLogo({
+    withCompanyName,
+    isLink,
+    ...props
+}: ICompanyLogo) {
     const isScreenLg = checkScreen(ScreenSize.lg);
 
     const sizeLogo = isScreenLg ? 60 : 30;
@@ -29,7 +34,11 @@ export default function CompanyLogo({ isLink, ...props }: ICompanyLogo) {
                         width={sizeLogo}
                     />
                 </span>
-                Be<span className=" text-secondary">Data</span>
+                {withCompanyName && (
+                    <>
+                        Be<span className=" text-secondary">Data</span>
+                    </>
+                )}
             </Link>
         );
     }
@@ -46,7 +55,11 @@ export default function CompanyLogo({ isLink, ...props }: ICompanyLogo) {
                     width={sizeLogo}
                 />
             </span>
-            Be<span className=" text-secondary">Data</span>
+            {withCompanyName && (
+                <>
+                    Be<span className=" text-secondary">Data</span>
+                </>
+            )}
         </div>
     );
 }

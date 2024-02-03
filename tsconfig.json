@@ -4,12 +4,13 @@
         "target": "es5",
         "module": "es2020",
         "moduleResolution": "node",
-        "baseUrl": "./",
+        "baseUrl": ".",
         "strict": true, // Enable strict type-checking options
         "skipLibCheck": true, // Skip type checking of declaration files
         "noImplicitAny": false, // Bypass raising errors on `any` type
         "paths": {
-            "ziggy": ["vendor/tightenco/ziggy/dist"]
+            "ziggy": ["vendor/tightenco/ziggy/dist"],
+            "resources": ["resources"]
         }
     },
     "include": ["resources/js/**/*"] // Frontend paths pattern
