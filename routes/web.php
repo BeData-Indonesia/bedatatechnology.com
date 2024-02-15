@@ -47,7 +47,9 @@ Route::prefix('/services')->group(function () {
 
 Route::prefix('/admin')->group(function (){
         Route::get('/',[ContactUsController::class,"show"]);
-        Route::get('/articles',[ContactUsController::class,"show"]);
+        Route::get('/articles',function(){
+            return Inertia::render('admin/articles');
+        });
 });
 
 Route::get('/about-us', function () {

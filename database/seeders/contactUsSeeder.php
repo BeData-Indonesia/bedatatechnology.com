@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use App\Models\ContactUs;
 use Illuminate\Database\Seeder;
 
-class contactUsSeeder extends Seeder
+class ContactUsSeeder extends Seeder
 {
     /**
      * Run the database seeds.

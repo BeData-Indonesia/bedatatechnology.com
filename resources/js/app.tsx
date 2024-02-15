@@ -4,7 +4,6 @@ import { render } from "react-dom";
 import { createInertiaApp } from "@inertiajs/inertia-react";
 import { InertiaProgress } from "@inertiajs/progress";
 import { QueryClient, QueryClientProvider } from "react-query";
-import * as React from "react";
 
 const appName = "Bedata";
 

@@ -146,7 +146,7 @@ export default function Home({ apiUrl }) {
                 </div>
             </section>
             {/*  */}
-            <section>
+            <section className=" hidden">
                 <div className=" flex flex-col gap-12">
                     <Topic title="Check our some recent works">
                         haCome check out some of the projects that have been
@@ -173,7 +173,7 @@ export default function Home({ apiUrl }) {
                 </div>
             </section>
             {/*  */}
-            <section>
+            <section className=" hidden">
                 <div className=" flex-col flex gap-8">
                     <div>
                         <Topic textAlign="left" title="What our clients says">
@@ -215,7 +215,7 @@ export default function Home({ apiUrl }) {
                 </div>
             </section>
             {/*  */}
-            <section>
+            <section className=" hidden">
                 <Topic title="Our Patner">
                     BeData has collaborated with various parties as follows
                 </Topic>

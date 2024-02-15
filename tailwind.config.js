@@ -6,7 +6,6 @@ module.exports = {
         "./storage/framework/views/*.php",
         "./resources/views/**/*.blade.php",
         "./resources/js/**/*.{js,ts,tsx,jsx}",
-        // "./resources/js/components/",
         "./resources/js/pages/*.tsx",
     ],
 

@@ -15,11 +15,12 @@ class ArticleFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name(),
-            'email' => $this->faker->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token' => Str::random(10),
+            'title' => $this->faker->text(20),
+            'excerpt' => $this->faker->text(20),
+            'description' => $this->faker->text(20),
+            'image_url' => $this->faker->text(20),
+            'small_image_url' => $this->faker->text(20),
+            'content' => $this->faker->paragraph(1,true),
         ];
     }
 }
