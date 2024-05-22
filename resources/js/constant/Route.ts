@@ -13,4 +13,7 @@ export const Route = {
     blog: "/blog",
 
     "blog-article": "/blog/:slug",
+
+    articles: "/admin/articles/",
+    "create-article": "/admin/articles/create",
 };

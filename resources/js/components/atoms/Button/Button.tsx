@@ -42,19 +42,6 @@ const Button: React.FC<ButtonProps> = React.forwardRef<
     HTMLButtonElement,
     ButtonProps
 >(({ className, title, children, size, variant, href, ...props }, ref) => {
-    // if (href) {
-    //     return (
-    //         <Link
-    //             href={href}
-    //             className={cn(buttonVariants({ size, variant }), className)}
-    //             {...props}
-    //         >
-    //             {" "}
-    //             {children}
-    //         </Link>
-    //     );
-    // }
-
     return (
         <button
             ref={ref}

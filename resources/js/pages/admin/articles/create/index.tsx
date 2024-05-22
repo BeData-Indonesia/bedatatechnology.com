@@ -12,19 +12,62 @@ import draftToHtml from "draftjs-to-html";
 import parse from "html-react-parser";
 import htmlToDraft from "html-to-draftjs";
 import { parseDate } from "resources/js/lib/utils";
-import Link from "resources/js/components/atoms/Link/Link";
-import { Route } from "resources/js/constant/Route";
-export default function Articles(props: any) {
-    const articleField = [
-        "No",
-        "Title",
-        "slug",
-        "featured",
-        "Desc",
-        "cateogry",
-        "Created At",
-        "Updated At",
-    ];
+import { Inertia } from "@inertiajs/inertia";
+import Input from "resources/js/components/molecules/Input/Input";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
+export default function CreateArticle(props: any) {
+    type TDataArticle = {
+        title: string;
+        slug: string;
+        featured: boolean;
+        description: string;
+        category: string;
+        created_at: string;
+        updated_at: string;
+        content: string;
+    };
+    const schema = yup.object().shape({
+        title: yup.string().email().required(),
+        slug: yup.string().required(),
+        featured: yup.string().required(),
+        description: yup.string().required(),
+        category: yup.string().required(),
+        created_at: yup.string().required(),
+        updated_at: yup.string().required(),
+        content: yup.string().required(),
+    });
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset,
+        getValues,
+        getFieldState,
+    } = useForm({
+        resolver: yupResolver(schema),
+    });
+    const [editorState, setEditorState] = useState(() =>
+        EditorState.createEmpty()
+    );
+
+    const [rawHTML, setRawHTML] = useState("");
+
+    const onEditorStateChange = (editorState) => {
+        setEditorState(editorState);
+        const getRawHTML = () => {
+            return draftToHtml(convertToRaw(editorState.getCurrentContent()));
+        };
+        setRawHTML(getRawHTML());
+    };
+
+    const ViewHTML = () => {
+        return parse(rawHTML);
+    };
+
     const data = [
         {
             No: 1,
@@ -127,50 +170,72 @@ export default function Articles(props: any) {
             "Updated At": "2024-03-05T15:59:21.078Z",
         },
     ];
-
+    const onSubmitHandler = async () => {
+        await Inertia.post("contact-us", getValues());
+    };
     return (
         <AdminLayout>
             <div className=" bg-white min-h-screen px-8 py-12">
                 <Topic title="Article" textAlign="left" />
-                <Link
-                    size="sm"
-                    className=" my-5"
-                    href={Route["create-article"]}
-                >
-                    Create new
-                </Link>
-
-                <div className="overflow-x-auto">
-                    <table className="table  z-0  border rounded-md">
-                        <thead>
-                            <tr>
-                                {articleField.map((field, i) => {
-                                    return <th key={i}>{field}</th>;
-                                })}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {data.map((d: any, i) => {
-                                return (
-                                    <tr key={i}>
-                                        <td>{d.No}</td>
-                                        <td>{d.Title}</td>
-                                        <td>{d.slug}</td>
-                                        <td>{d.featured ? "Yes" : "No"}</td>
-                                        <td>{d.Desc}</td>
-                                        <td>{d.cateogry}</td>
-                                        <td>
-                                            {d["Created At"].toLocaleString()}
-                                        </td>
-                                        <td>
-                                            {d["Updated At"].toLocaleString()}
-                                        </td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
-                </div>
+                <form className="" onSubmit={onSubmitHandler}>
+                    <div className=" mb-4 flex flex-col gap-2 ">
+                        <Input
+                            error={errors.title}
+                            label="Title"
+                            register={register}
+                            type="text"
+                            name="title"
+                        />
+                        <Input
+                            error={errors.category}
+                            label="Category"
+                            register={register}
+                            type="text"
+                            name="category"
+                        />
+                        <Input
+                            error={errors.description}
+                            label="Description"
+                            register={register}
+                            type="text"
+                            name="description"
+                        />
+                        <Input
+                            error={errors.featured}
+                            label="Featured"
+                            register={register}
+                            type="text"
+                            name="featured"
+                        />
+                        <Input
+                            error={errors.content}
+                            label="Content"
+                            register={register}
+                            type="text"
+                            name="content"
+                        />
+                        <Input
+                            error={errors.featured}
+                            label="Featured"
+                            register={register}
+                            type="text"
+                            name="featured"
+                        />
+                    </div>
+                    <div className=" flex justify-end">
+                        <Button type="submit" size="md" className=" rounded-md">
+                            Send
+                        </Button>
+                    </div>
+                </form>
+                <Editor
+                    editorState={editorState}
+                    toolbarClassName="toolbarClassName"
+                    wrapperClassName="wrapperClassName"
+                    editorClassName="editorClassName"
+                    onEditorStateChange={onEditorStateChange}
+                />
+                <ViewHTML></ViewHTML>
             </div>
         </AdminLayout>
     );

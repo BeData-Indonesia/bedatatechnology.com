@@ -50,6 +50,9 @@ Route::prefix('/admin')->group(function (){
         Route::get('/articles',function(){
             return Inertia::render('admin/articles');
         });
+        Route::get('/articles/create',function(){
+            return Inertia::render('admin/articles/create');
+        });
 });
 
 Route::get('/about-us', function () {

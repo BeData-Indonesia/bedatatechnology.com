@@ -1,31 +1,20 @@
 import { Link } from "@inertiajs/inertia-react";
 import AdminLayout from "resources/js/Layouts/AdminLayout";
-import CompanyLogo from "resources/js/components/atoms/CompanyLogo/CompanyLogo";
 import Topic from "resources/js/components/molecules/Topic/Topic";
+import {
+    IBaseCollectionResponse,
+    IBasePageProps,
+} from "resources/js/entities/Page";
 import { parseDate } from "resources/js/lib/utils";
 
 const contactUsField = ["No", "Email", "Name", "Company", "Inquiry", "date"];
 
-interface IDashboard {
-    contactUsData: IContactUsCollection;
+interface IDashboard extends IBasePageProps {
+    contactUsData: TContactUsData;
 }
-interface ILinks {
-    first: string;
-    last: string;
-    next: string;
-    prev: string;
-}
-interface Imeta {
-    current_page: number;
-    total: number;
-    per_page: number;
-    path: string;
-}
-interface IContactUsCollection {
-    data: IContactUs[];
-    links: ILinks;
-    meta: Imeta;
-}
+
+type TContactUsData = IBaseCollectionResponse<IContactUs[]>;
+
 interface IContactUs {
     company: string;
     created_at: string;
@@ -37,9 +26,8 @@ interface IContactUs {
 }
 
 export default function Dashboard({ contactUsData }: IDashboard) {
-    function paginationLinkHref() {}
     const { data, links, meta } = contactUsData;
-    console.log({ links, meta });
+    console.log(data);
     return (
         <AdminLayout>
             <div className=" bg-white min-h-screen px-8 py-12">

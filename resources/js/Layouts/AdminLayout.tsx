@@ -38,7 +38,7 @@ export default function AdminLayout({ children }: any) {
                                             <li key={m.title + i} className="">
                                                 <Link
                                                     href={m.url}
-                                                    className="bg-secondary hover:bg-secondary hover:bg-opacity-90"
+                                                    className=" hover:bg-secondary hover:bg-opacity-90"
                                                 >
                                                     {m.title}
                                                 </Link>
