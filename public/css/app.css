@@ -762,11 +762,14 @@ html {
   --tw-contain-layout:  ;
   --tw-contain-paint:  ;
   --tw-contain-style:  ;
+<<<<<<< HEAD
 }
 .avatar.placeholder > div {
   display: flex;
   align-items: center;
   justify-content: center;
+=======
+>>>>>>> development
 }
 .breadcrumbs {
   max-width: 100%;
@@ -2551,8 +2554,14 @@ html:has(.drawer-toggle:checked) {
 .flex-row {
   flex-direction: row;
 }
+.flex-row-reverse {
+  flex-direction: row-reverse;
+}
 .flex-col {
   flex-direction: column;
+}
+.flex-col-reverse {
+  flex-direction: column-reverse;
 }
 .flex-wrap {
   flex-wrap: wrap;
@@ -2774,6 +2783,9 @@ html:has(.drawer-toggle:checked) {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+.bg-black\/20 {
+  background-color: rgb(0 0 0 / 0.2);
 }
 .bg-opacity-10 {
   --tw-bg-opacity: 0.1;
