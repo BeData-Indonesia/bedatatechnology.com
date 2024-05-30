@@ -1,3 +1,4 @@
+import { Inertia } from "@inertiajs/inertia";
 import { Link } from "@inertiajs/inertia-react";
 import AdminLayout from "resources/js/Layouts/AdminLayout";
 import Topic from "resources/js/components/molecules/Topic/Topic";
@@ -6,7 +7,7 @@ import {
     IBasePageProps,
 } from "resources/js/entities/Page";
 import { parseDate } from "resources/js/lib/utils";
-
+import Button from "resources/js/components/atoms/Button/Button";
 const contactUsField = ["No", "Email", "Name", "Company", "Inquiry", "date"];
 
 interface IDashboard extends IBasePageProps {
@@ -28,8 +29,18 @@ interface IContactUs {
 export default function Dashboard({ contactUsData }: IDashboard) {
     const { data, links, meta } = contactUsData;
     console.log(data);
+
+    const submit = () => {
+        Inertia.post("logout");
+    };
+
     return (
         <AdminLayout>
+            <div className="flex justify-end">
+                <Button onClick={submit} size="md" variant="ghost">
+                    Logout
+                </Button>
+            </div>
             <div className=" bg-white min-h-screen px-8 py-12">
                 <Topic title="Dashboard" textAlign="left" />
                 <div className="overflow-x-auto">
