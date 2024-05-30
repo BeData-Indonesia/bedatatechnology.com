@@ -8,6 +8,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import route from "ziggy";
+import { Inertia } from "@inertiajs/inertia";
+
 export default function Login({ status, canResetPassword }) {
     const schema = yup.object().shape({
         email: yup.string().email().required(),
@@ -29,8 +31,10 @@ export default function Login({ status, canResetPassword }) {
         };
     }, []);
 
-    const submit = () => {
-        route("contact-us");
+    const submit = (data) => {
+        console.log(data);
+        Inertia.post('login', data);
+        // route("login");
     };
 
     return (
