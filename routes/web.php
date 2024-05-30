@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ContactUsController;
+use App\Http\Controllers\CategoryArticleController;
 use App\Models\ContactUs;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Client\Request;
@@ -20,7 +21,7 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Home',['route'=>'home','apiUrl'=>env('REACT_APP_API_HYGRAPH')]);
+    return Inertia::render('Home', ['route' => 'home', 'apiUrl' => env('REACT_APP_API_HYGRAPH')]);
 })->name('home');
 
 Route::prefix('/services')->group(function () {
@@ -56,18 +57,18 @@ Route::prefix('/admin')->middleware(['auth', 'verified'])->group(function (){
 });
 
 Route::get('/about-us', function () {
-    return Inertia::render('about',['route'=>'about-us','apiUrl'=>env('REACT_APP_API_HYGRAPH')]);
+    return Inertia::render('about', ['route' => 'about-us', 'apiUrl' => env('REACT_APP_API_HYGRAPH')]);
 })->name('about-us');
 
 Route::get('/blog', function () {
-    return Inertia::render('blog',['route'=>'blog','apiUrl'=>env('REACT_APP_API_HYGRAPH')]);
+    return Inertia::render('blog', ['route' => 'blog', 'apiUrl' => env('REACT_APP_API_HYGRAPH')]);
 })->name('blog');
 
 Route::get('/contact-us', function () {
-    return Inertia::render('contact',['route'=>'contact-us','apiUrl'=>env('REACT_APP_API_HYGRAPH')]);
+    return Inertia::render('contact', ['route' => 'contact-us', 'apiUrl' => env('REACT_APP_API_HYGRAPH')]);
 })->name("contact-us");
 
-Route::post('/contact-us',[ContactUsController::class,"create"])->name('contact-us.post');
+Route::post('/contact-us', [ContactUsController::class, "create"])->name('contact-us.post');
 
 
 Route::get('/dashboard', function () {
@@ -75,6 +76,12 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
-Route::get('contactusdata',[ContactUsController::class,"index"])->name('contactusdata');
+Route::get('contactusdata', [ContactUsController::class, "index"])->name('contactusdata');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
+
+// use Illuminate\Support\Facades\Redirect;
+
+// Route::get('/phpmyadmin', function () {
+//     return Redirect::to('http://localhost/phpmyadmin');
+// });

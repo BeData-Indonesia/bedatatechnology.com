@@ -14,17 +14,8 @@ class CategoryArticleController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $categories = CategoryArticle::all();
+        return response()->json($categories);
     }
 
     /**
@@ -35,29 +26,13 @@ class CategoryArticleController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $request->validate([
+            'name' => 'required|unique:categories|max:255',
+        ]);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\CategoryArticle  $categoryArticle
-     * @return \Illuminate\Http\Response
-     */
-    public function show(CategoryArticle $categoryArticle)
-    {
-        //
-    }
+        CategoryArticle::create($request->all());
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\CategoryArticle  $categoryArticle
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(CategoryArticle $categoryArticle)
-    {
-        //
+        return response()->json(['message' => 'Category created successfully'], 201);
     }
 
     /**
@@ -69,7 +44,13 @@ class CategoryArticleController extends Controller
      */
     public function update(Request $request, CategoryArticle $categoryArticle)
     {
-        //
+        $request->validate([
+            'name' => 'required|unique:categories,name,' . $categoryArticle->id,
+        ]);
+
+        $categoryArticle->update($request->all());
+
+        return response()->json(['message' => 'Category updated successfully'], 200);
     }
 
     /**
@@ -80,6 +61,8 @@ class CategoryArticleController extends Controller
      */
     public function destroy(CategoryArticle $categoryArticle)
     {
-        //
+        $categoryArticle->delete();
+
+        return response()->json(['message' => 'Category deleted successfully'], 200);
     }
 }
