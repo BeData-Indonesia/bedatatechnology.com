@@ -15,9 +15,8 @@ class CreateCategoryArticleTable extends Migration
     {
         Schema::create('category_articles', function (Blueprint $table) {
             $table->id();
-            $table->string('category');
+            $table->string('name');
             $table->timestamps();
-           
         });
     }
 
@@ -28,6 +27,6 @@ class CreateCategoryArticleTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('category_article');
+        Schema::dropIfExists('category_articles');
     }
 }
