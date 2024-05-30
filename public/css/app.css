@@ -762,6 +762,14 @@ html {
   --tw-contain-layout:  ;
   --tw-contain-paint:  ;
   --tw-contain-style:  ;
+<<<<<<< HEAD
+}
+.avatar.placeholder > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+=======
+>>>>>>> development
 }
 .breadcrumbs {
   max-width: 100%;
@@ -2701,11 +2709,11 @@ html:has(.drawer-toggle:checked) {
 .border-b {
   border-bottom-width: 1px;
 }
-.border-r {
-  border-right-width: 1px;
-}
 .border-t {
   border-top-width: 1px;
+}
+.border-r {
+  border-right-width: 1px;
 }
 .border-\[\#e3e3e3\] {
   --tw-border-opacity: 1;
@@ -2727,10 +2735,6 @@ html:has(.drawer-toggle:checked) {
   --tw-border-opacity: 1;
   border-color: rgb(209 213 219 / var(--tw-border-opacity));
 }
-.border-gray-400 {
-  --tw-border-opacity: 1;
-  border-color: rgb(156 163 175 / var(--tw-border-opacity));
-}
 .border-primary {
   --tw-border-opacity: 1;
   border-color: rgb(29 103 88 / var(--tw-border-opacity));
@@ -2745,6 +2749,10 @@ html:has(.drawer-toggle:checked) {
 }
 .border-transparent {
   border-color: transparent;
+}
+.border-gray-400 {
+  --tw-border-opacity: 1;
+  border-color: rgb(156 163 175 / var(--tw-border-opacity));
 }
 .border-opacity-0 {
   --tw-border-opacity: 0;

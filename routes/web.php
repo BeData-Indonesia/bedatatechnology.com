@@ -46,14 +46,17 @@ Route::prefix('/services')->group(function () {
     })->name('services');
 });
 
-Route::prefix('/admin')->middleware(['auth', 'verified'])->group(function (){
-        Route::get('/',[ContactUsController::class,"show"]);
-        Route::get('/articles',function(){
-            return Inertia::render('admin/articles');
-        });
-        Route::get('/articles/create',function(){
-            return Inertia::render('admin/articles/create');
-        });
+Route::prefix('/admin')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('/', [ContactUsController::class, "show"]);
+    Route::get('/articles', function () {
+        return Inertia::render('admin/articles');
+    });
+    Route::get('/articles/create', function () {
+        return Inertia::render('admin/articles/create');
+    });
+    Route::get('/articles/category', function () {
+        return Inertia::render('admin/articles/category');
+    });
 });
 
 Route::get('/about-us', function () {

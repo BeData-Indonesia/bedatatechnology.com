@@ -8,6 +8,7 @@ import {
 } from "resources/js/entities/Page";
 import { parseDate } from "resources/js/lib/utils";
 import Button from "resources/js/components/atoms/Button/Button";
+
 const contactUsField = ["No", "Email", "Name", "Company", "Inquiry", "date"];
 
 interface IDashboard extends IBasePageProps {
@@ -33,7 +34,6 @@ export default function Dashboard({ contactUsData }: IDashboard) {
     const submit = () => {
         Inertia.post("logout");
     };
-
     return (
         <AdminLayout>
             <div className="flex justify-end">

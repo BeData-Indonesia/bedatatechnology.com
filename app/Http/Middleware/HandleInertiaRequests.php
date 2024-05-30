@@ -45,7 +45,7 @@ class HandleInertiaRequests extends Middleware
                 'message' => function () use ($request) {
                     return $request->session()->get('message');
                 }
-            ],            
+            ],      
         ]);
     }
 }
