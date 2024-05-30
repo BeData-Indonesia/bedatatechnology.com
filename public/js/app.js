@@ -4791,7 +4791,6 @@ function Login(_a) {
   var submit = function submit(data) {
     console.log(data);
     _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_7__.Inertia.post('login', data);
-    // route("login");
   };
   return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_3__.Head, {

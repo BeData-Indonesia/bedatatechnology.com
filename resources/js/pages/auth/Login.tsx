@@ -34,7 +34,6 @@ export default function Login({ status, canResetPassword }) {
     const submit = (data) => {
         console.log(data);
         Inertia.post('login', data);
-        // route("login");
     };
 
     return (
