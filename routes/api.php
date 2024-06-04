@@ -19,8 +19,3 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-Route::get('/categories', [CategoryArticleController::class, 'index']);
-Route::post('/categories', [CategoryArticleController::class, 'store']);
-Route::put('/categories/{categoryArticle}', [CategoryArticleController::class, 'update']);
-Route::delete('/categories/{categoryArticle}', [CategoryArticleController::class, 'destroy']);

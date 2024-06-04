@@ -4,65 +4,55 @@ namespace App\Http\Controllers;
 
 use App\Models\CategoryArticle;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Inertia\Inertia;
 
 class CategoryArticleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $categories = CategoryArticle::all();
-        return response()->json($categories);
+        return Inertia::render('admin/articles/category', ['categories' => $categories]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    public function create()
+    {
+        return Inertia::render('admin/articles/category/create');
+    }
+
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:categories|max:255',
+            'name' => 'required|unique:category_articles|max:255',
         ]);
 
         CategoryArticle::create($request->all());
-
-        return response()->json(['message' => 'Category created successfully'], 201);
+        return redirect()->route('categories.index')->with('message', 'Category created successfully');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\CategoryArticle  $categoryArticle
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, CategoryArticle $categoryArticle)
+    public function edit(CategoryArticle $category)
+    {
+        return Inertia::render('admin/articles/category/edit', ['category' => $category]);
+    }
+
+    public function update(Request $request, CategoryArticle $category)
     {
         $request->validate([
-            'name' => 'required|unique:categories,name,' . $categoryArticle->id,
+            'name' => ['required', 'max:255', Rule::unique('category_articles')->ignore($category->id)],
         ]);
 
-        $categoryArticle->update($request->all());
+        $category->update($request->all());
 
-        return response()->json(['message' => 'Category updated successfully'], 200);
+        return redirect()->route('categories.index')->with('message', 'Category updated successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\CategoryArticle  $categoryArticle
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(CategoryArticle $categoryArticle)
+    public function destroy(CategoryArticle $category)
     {
-        $categoryArticle->delete();
-
-        return response()->json(['message' => 'Category deleted successfully'], 200);
+        try {
+            $category->delete();
+            return redirect()->route('categories.index')->with('success', 'Category deleted successfully');
+        } catch (\Exception $e) {
+            return redirect()->route('categories.index')->with('error', 'Failed to delete category');
+        }
     }
 }
