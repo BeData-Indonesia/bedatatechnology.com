@@ -94,7 +94,7 @@ class Preview extends import_react.Component {
     });
   }
   render() {
-    const { light, onClick, playIcon, previewTabIndex, previewAriaLabel } = this.props;
+    const { light, onClick, playIcon, previewTabIndex } = this.props;
     const { image } = this.state;
     const isElement = import_react.default.isValidElement(light);
     const flexCenter = {
@@ -135,8 +135,7 @@ class Preview extends import_react.Component {
         className: "react-player__preview",
         onClick,
         tabIndex: previewTabIndex,
-        onKeyPress: this.handleKeyPress,
-        ...previewAriaLabel ? { "aria-label": previewAriaLabel } : {}
+        onKeyPress: this.handleKeyPress
       },
       isElement ? light : null,
       playIcon || defaultPlayIcon

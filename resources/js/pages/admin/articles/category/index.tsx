@@ -35,14 +35,17 @@ const CategoryIndex: React.FC<Props> = ({ categories }) => {
                     alert("Category deleted successfully");
                     Inertia.reload();
                 },
-            });            
+            });
         }
     };
 
     return (
-        <div>
+        <AdminLayout>
             <div className="text-xl font-bold my-8">Category Management</div>
-            <InertiaLink href="/category/create" className="btn btn-primary mb-4">
+            <InertiaLink
+                href="/admin/category/create"
+                className="btn btn-primary mb-4"
+            >
                 Create New Category
             </InertiaLink>
             <table className="table-auto w-full">
@@ -57,9 +60,14 @@ const CategoryIndex: React.FC<Props> = ({ categories }) => {
                     {categories.map((category) => (
                         <tr key={category.id}>
                             <td className="border px-4 py-2">{category.id}</td>
-                            <td className="border px-4 py-2">{category.name}</td>
                             <td className="border px-4 py-2">
-                                <InertiaLink href={`/category/edit/${category.id}`} className="btn btn-primary mr-2">
+                                {category.name}
+                            </td>
+                            <td className="border px-4 py-2">
+                                <InertiaLink
+                                    href={`/category/edit/${category.id}`}
+                                    className="btn btn-primary mr-2"
+                                >
                                     Edit
                                 </InertiaLink>
                                 <button
@@ -73,15 +81,8 @@ const CategoryIndex: React.FC<Props> = ({ categories }) => {
                     ))}
                 </tbody>
             </table>
-        </div>
+        </AdminLayout>
     );
 };
 
 export default CategoryIndex;
-
-
-
-
-
-
-
