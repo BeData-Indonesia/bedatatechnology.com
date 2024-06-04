@@ -1,0 +1,10 @@
+///////////////////////////////////////////////////////////
+
+error: plugin ziggy not working 
+error-message : Cannot find name 'post'.
+details : post and route from plugin ziggy not woriking on typescript 
+solve: 
+https://github.com/tighten/ziggy/issues/427#issuecomment-898823699
+https://laracasts.com/discuss/channels/inertia/defining-routes-in-a-react-component-using-inertia
+
+///////////////////////////////////////////////////////////

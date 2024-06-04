@@ -1,4 +1,5 @@
 const mix = require("laravel-mix");
+const path = require("path");
 
 /*
  |--------------------------------------------------------------------------
@@ -18,7 +19,8 @@ mix.ts("resources/js/app.tsx", "public/js")
         require("autoprefixer"),
     ])
     .alias({
-        "@": "resources/js",
+        ziggy: "vendor/tightenco/ziggy/dist",
+        resources: path.resolve(__dirname, "resources/"),
     });
 
 if (mix.inProduction()) {
