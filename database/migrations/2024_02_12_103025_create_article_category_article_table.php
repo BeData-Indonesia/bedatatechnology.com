@@ -36,6 +36,6 @@ class CreateArticleCategoryArticleTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('article_and_category_relations');
+        Schema::dropIfExists('article_category_article');
     }
 }
