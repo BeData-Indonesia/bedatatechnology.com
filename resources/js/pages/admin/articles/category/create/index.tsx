@@ -11,7 +11,7 @@ const CreateCategory: React.FC<Props> = ({ errors }) => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        Inertia.post("/category/create", { name });
+        Inertia.post("/admin/category/create", { name });
     };
 
     return (
@@ -31,7 +31,7 @@ const CreateCategory: React.FC<Props> = ({ errors }) => {
                 </div>
                 <div>
                     <button type="submit" className="btn btn-primary">Create</button>
-                    <InertiaLink href="/category" className="btn btn-secondary ml-2">Cancel</InertiaLink>
+                    <InertiaLink href="/admin/category" className="btn btn-secondary ml-2">Cancel</InertiaLink>
                 </div>
             </form>
         </div>

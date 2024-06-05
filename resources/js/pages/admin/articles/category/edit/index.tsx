@@ -14,11 +14,11 @@ const EditCategory: React.FC<Props> = ({ category, errors }) => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        Inertia.put(`/category/edit/${category.id}`, { name }, {
+        Inertia.put(`/admin/category/edit/${category.id}`, { name }, {
             onSuccess: () => {
                 setSuccessMessage("Category updated successfully");
                 setTimeout(() => setSuccessMessage(""), 3000);
-                Inertia.visit('/category');
+                Inertia.visit('/admin/category');
             },
         });
     };
@@ -40,8 +40,8 @@ const EditCategory: React.FC<Props> = ({ category, errors }) => {
                     {errors.name && <div className="text-red-500">{errors.name}</div>}
                 </div>
                 <div>
-                    <button onClick={() => Inertia.visit('/category')} className="btn btn-primary">Update</button>
-                    <InertiaLink href="/category" className="btn btn-secondary ml-2">Cancel</InertiaLink>
+                    <button onClick={() => Inertia.visit('/admin/category')} className="btn btn-primary">Update</button>
+                    <InertiaLink href="/admin/category" className="btn btn-secondary ml-2">Cancel</InertiaLink>
                 </div>
             </form>
         </div>

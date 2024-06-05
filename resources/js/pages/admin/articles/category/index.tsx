@@ -30,7 +30,7 @@ interface Props {
 const CategoryIndex: React.FC<Props> = ({ categories }) => {
     const handleDelete = (id: number) => {
         if (confirm("Are you sure you want to delete this category?")) {
-            Inertia.delete(`/category/${id}`, {
+            Inertia.delete(`/admin/category/${id}`, {
                 onSuccess: () => {
                     alert("Category deleted successfully");
                     Inertia.reload();
@@ -51,7 +51,7 @@ const CategoryIndex: React.FC<Props> = ({ categories }) => {
             <table className="table-auto w-full">
                 <thead>
                     <tr>
-                        <th className="px-4 py-2">ID</th>
+                        {/* <th className="px-4 py-2">ID</th> */}
                         <th className="px-4 py-2">Name</th>
                         <th className="px-4 py-2">Actions</th>
                     </tr>
@@ -59,13 +59,13 @@ const CategoryIndex: React.FC<Props> = ({ categories }) => {
                 <tbody>
                     {categories.map((category) => (
                         <tr key={category.id}>
-                            <td className="border px-4 py-2">{category.id}</td>
+                            {/* <td className="border px-4 py-2">{category.id}</td> */}
                             <td className="border px-4 py-2">
                                 {category.name}
                             </td>
                             <td className="border px-4 py-2">
                                 <InertiaLink
-                                    href={`/category/edit/${category.id}`}
+                                    href={`/admin/category/edit/${category.id}`}
                                     className="btn btn-primary mr-2"
                                 >
                                     Edit
