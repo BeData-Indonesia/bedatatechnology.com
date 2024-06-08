@@ -3,6 +3,7 @@ import { Link } from "@inertiajs/inertia-react";
 const listMenu = [
     { url: "/admin", title: "Dashboard" },
     { url: "/admin/articles", title: "Articles" },
+    { url: "/admin/category_article", title: "Category Article" },
 ];
 
 export default function AdminLayout({ children }: any) {
@@ -17,7 +18,9 @@ export default function AdminLayout({ children }: any) {
                             className="drawer-toggle"
                         />
                         <div className="drawer-content">
-                            {children}
+                            <div className="bg-white min-h-screen px-8 py-12">
+                                {children}
+                            </div>
                             <label
                                 htmlFor="my-drawer-2"
                                 className="btn   drawer-button lg:hidden"

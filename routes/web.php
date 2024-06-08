@@ -47,7 +47,7 @@ Route::prefix('/services')->group(function () {
 });
 
 Route::prefix('/admin')->middleware(['auth', 'verified'])->group(function () {
-    Route::prefix('category')->group(function () {
+    Route::prefix('category_article')->group(function () {
         Route::get('/', [CategoryArticleController::class, 'index'])->name('categories.index');
         Route::get('/create', [CategoryArticleController::class, 'create'])->name('categories.create');
         Route::post('/create', [CategoryArticleController::class, 'store'])->name('categories.store');

@@ -130,9 +130,10 @@ export default function Articles(props: any) {
 
     return (
         <AdminLayout>
-            <div className=" bg-white min-h-screen px-8 py-12">
+            <div className=" ">
                 <Topic title="Article" textAlign="left" />
                 <Link
+                    button
                     size="sm"
                     className=" my-5"
                     href={Route["create-article"]}
@@ -141,7 +142,7 @@ export default function Articles(props: any) {
                 </Link>
 
                 <div className="overflow-x-auto">
-                    <table className="table  z-0  border rounded-md">
+                    {/* <table className="table  z-0  border rounded-md">
                         <thead>
                             <tr>
                                 {articleField.map((field, i) => {
@@ -169,7 +170,7 @@ export default function Articles(props: any) {
                                 );
                             })}
                         </tbody>
-                    </table>
+                    </table> */}
                 </div>
             </div>
         </AdminLayout>

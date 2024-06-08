@@ -41,7 +41,7 @@ export default function Dashboard({ contactUsData }: IDashboard) {
                     Logout
                 </Button>
             </div>
-            <div className=" bg-white min-h-screen px-8 py-12">
+            <div className=" ">
                 <Topic title="Dashboard" textAlign="left" />
                 <div className="overflow-x-auto">
                     <table className="table  z-0  border rounded-md">

@@ -7,8 +7,6 @@ export type TSizeButton = "sm" | "md" | "lg";
 
 export type TVariantButton = "default" | "ghost" | "reverse_default";
 
-// Define the props interface
-
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     size?: TSizeButton;
     children?: ReactNode;

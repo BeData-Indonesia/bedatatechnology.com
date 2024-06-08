@@ -22,10 +22,10 @@ interface LinkProps extends BaseInertiaLinkProps {
     href: string;
 }
 
-const buttonVariants = cva(" flex items-center w-fit justify-center  ", {
+const buttonVariants = cva(" flex items-center w-fit justify-center  btn", {
     variants: {
         size: {
-            sm: " text-xs h-6  rounded-xl px-[12px] gap-1",
+            sm: " text-xs h-6  rounded-xl px-[12px] gap-1 ",
             md: " text-xl h-10 rounded-3xl px-8 gap-2",
             lg: "",
         },
