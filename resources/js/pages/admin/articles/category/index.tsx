@@ -30,7 +30,7 @@ interface Props {
 const CategoryIndex: React.FC<Props> = ({ categories }) => {
     const handleDelete = (id: number) => {
         if (confirm("Are you sure you want to delete this category?")) {
-            Inertia.delete(`/admin/category/${id}`, {
+            Inertia.delete(`/admin/category_article/${id}`, {
                 onSuccess: () => {
                     alert("Category deleted successfully");
                     Inertia.reload();
@@ -41,44 +41,48 @@ const CategoryIndex: React.FC<Props> = ({ categories }) => {
 
     return (
         <AdminLayout>
-            <div className="text-xl font-bold my-8">Category Management</div>
-            <InertiaLink
-                href="/admin/category/create"
-                className="btn btn-primary mb-4"
-            >
-                Create New Category
-            </InertiaLink>
-            <table className="table-auto w-full">
-                <thead>
-                    <tr>
-                        <th className="px-4 py-2">Name</th>
-                        <th className="px-4 py-2">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {categories.map((category) => (
-                        <tr key={category.id}>
-                            <td className="border px-4 py-2">
-                                {category.name}
-                            </td>
-                            <td className="border px-4 py-2">
-                                <InertiaLink
-                                    href={`/admin/category/edit/${category.id}`}
-                                    className="btn btn-primary mr-2"
-                                >
-                                    Edit
-                                </InertiaLink>
-                                <button
-                                    onClick={() => handleDelete(category.id)}
-                                    className="btn btn-danger"
-                                >
-                                    Delete
-                                </button>
-                            </td>
+            <div className="">
+                <div className="text-xl font-bold  ">Category Management</div>
+                <InertiaLink
+                    href="/admin/category_article/create"
+                    className="btn btn-primary mb-4"
+                >
+                    Create New Category
+                </InertiaLink>
+                <table className="table-auto w-full">
+                    <thead>
+                        <tr>
+                            <th className="px-4 py-2">Name</th>
+                            <th className="px-4 py-2">Actions</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {categories.map((category) => (
+                            <tr key={category.id}>
+                                <td className="border px-4 py-2">
+                                    {category.name}
+                                </td>
+                                <td className="border px-4 py-2">
+                                    <InertiaLink
+                                        href={`/admin/category_article/edit/${category.id}`}
+                                        className="btn btn-primary mr-2"
+                                    >
+                                        Edit
+                                    </InertiaLink>
+                                    <button
+                                        onClick={() =>
+                                            handleDelete(category.id)
+                                        }
+                                        className="btn btn-danger"
+                                    >
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </AdminLayout>
     );
 };

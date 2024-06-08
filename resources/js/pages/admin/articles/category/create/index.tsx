@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Inertia } from "@inertiajs/inertia";
 import { InertiaLink } from "@inertiajs/inertia-react";
+import AdminLayout from "resources/js/Layouts/AdminLayout";
 
 interface Props {
     errors: any;
@@ -11,15 +12,17 @@ const CreateCategory: React.FC<Props> = ({ errors }) => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        Inertia.post("/admin/category/create", { name });
+        Inertia.post("/admin/category_article/create", { name });
     };
 
     return (
-        <div>
-            <div className="text-xl font-bold my-8">Create Category</div>
+        <AdminLayout>
+            <div className="text-xl font-bold ">Create Category</div>
             <form onSubmit={handleSubmit}>
                 <div className="mb-4">
-                    <label htmlFor="name" className="block text-gray-700">Name:</label>
+                    <label htmlFor="name" className="block text-gray-700">
+                        Name:
+                    </label>
                     <input
                         type="text"
                         id="name"
@@ -27,14 +30,23 @@ const CreateCategory: React.FC<Props> = ({ errors }) => {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                     />
-                    {errors.name && <div className="text-red-500">{errors.name}</div>}
+                    {errors.name && (
+                        <div className="text-red-500">{errors.name}</div>
+                    )}
                 </div>
                 <div>
-                    <button type="submit" className="btn btn-primary">Create</button>
-                    <InertiaLink href="/admin/category" className="btn btn-secondary ml-2">Cancel</InertiaLink>
+                    <button type="submit" className="btn btn-primary">
+                        Create
+                    </button>
+                    <InertiaLink
+                        href="/admin/category_article"
+                        className="btn btn-secondary ml-2"
+                    >
+                        Cancel
+                    </InertiaLink>
                 </div>
             </form>
-        </div>
+        </AdminLayout>
     );
 };
 

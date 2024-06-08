@@ -175,7 +175,7 @@ export default function CreateArticle(props: any) {
     };
     return (
         <AdminLayout>
-            <div className=" bg-white min-h-screen px-8 py-12">
+            <div className=" ">
                 <Topic title="Article" textAlign="left" />
                 <form className="" onSubmit={onSubmitHandler}>
                     <div className=" mb-4 flex flex-col gap-2 ">
