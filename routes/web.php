@@ -47,6 +47,14 @@ Route::prefix('/services')->group(function () {
 });
 
 Route::prefix('/admin')->middleware(['auth', 'verified'])->group(function () {
+    Route::prefix('category')->group(function () {
+        Route::get('/', [CategoryArticleController::class, 'index'])->name('categories.index');
+        Route::get('/create', [CategoryArticleController::class, 'create'])->name('categories.create');
+        Route::post('/create', [CategoryArticleController::class, 'store'])->name('categories.store');
+        Route::get('/edit/{category}', [CategoryArticleController::class, 'edit'])->name('categories.edit');
+        Route::put('/edit/{category}', [CategoryArticleController::class, 'update'])->name('categories.update');
+        Route::delete('/{category}', [CategoryArticleController::class, 'destroy'])->name('categories.destroy');
+    });
     Route::get('/', [ContactUsController::class, "show"]);
     Route::get('/articles', function () {
         return Inertia::render('admin/articles');
@@ -54,10 +62,14 @@ Route::prefix('/admin')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/articles/create', function () {
         return Inertia::render('admin/articles/create');
     });
-    Route::get('/articles/category', function () {
-        return Inertia::render('admin/articles/category');
-    });
+    
 });
+
+
+
+// Route::get('/articles/category', function () {
+//     return Inertia::render('admin/articles/category');
+// });
 
 Route::get('/about-us', function () {
     return Inertia::render('about', ['route' => 'about-us', 'apiUrl' => env('REACT_APP_API_HYGRAPH')]);
