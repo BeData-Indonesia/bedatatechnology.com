@@ -3,6 +3,7 @@
     "/js/reactPlayerYouTube.js": "/js/reactPlayerYouTube.js",
     "/js/reactPlayerSoundCloud.js": "/js/reactPlayerSoundCloud.js",
     "/js/reactPlayerVimeo.js": "/js/reactPlayerVimeo.js",
+    "/js/reactPlayerMux.js": "/js/reactPlayerMux.js",
     "/js/reactPlayerFacebook.js": "/js/reactPlayerFacebook.js",
     "/js/reactPlayerStreamable.js": "/js/reactPlayerStreamable.js",
     "/js/reactPlayerWistia.js": "/js/reactPlayerWistia.js",

@@ -16,4 +16,6 @@ export const Route = {
 
     articles: "/admin/articles/",
     "create-article": "/admin/articles/create",
+
+    contactUsAdmin: "/admin/contact_us/",
 };

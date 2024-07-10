@@ -4,6 +4,7 @@ const listMenu = [
     { url: "/admin", title: "Dashboard" },
     { url: "/admin/articles", title: "Articles" },
     { url: "/admin/category_article", title: "Category Article" },
+    { url: "/admin/contact_us", title: "Contact Us Admin" },
 ];
 
 export default function AdminLayout({ children }: any) {

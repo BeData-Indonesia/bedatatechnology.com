@@ -9,6 +9,8 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import route from "ziggy";
 import { Inertia } from "@inertiajs/inertia";
+import Layout from "resources/js/components/organism/Layout/Layout";
+import Topic from "resources/js/components/molecules/Topic/Topic";
 
 export default function Login({ status, canResetPassword }) {
     const schema = yup.object().shape({
@@ -33,15 +35,16 @@ export default function Login({ status, canResetPassword }) {
 
     const submit = (data) => {
         console.log(data);
-        Inertia.post('login', data);
+        Inertia.post("login", data);
     };
 
     return (
-        <>
-            <Head title="Log in" />
+        <div className="px-5 py-3 lg:px-24 lg:py-16 flex flex-col gap-16 font-poppins">
+            <Head title="Login" />
 
-            <form onSubmit={handleSubmit(submit)}>
-                <div>
+            <form onSubmit={handleSubmit(submit)} className="w-96 size-fit self-center px-8 pt-5 pb-12 border-0 rounded-xl border-[#1d6353] shadow-md">
+                <Topic title="Login" textAlign="center" className="mt-4"/>
+                <div className="mt-6">
                     <Input
                         error={errors.email}
                         label="Email"
@@ -51,31 +54,22 @@ export default function Login({ status, canResetPassword }) {
                     />
                 </div>
 
-                <div className="mt-4">
+                <div className="mt-6">
                     <Input
                         type="password"
                         name="password"
                         error={errors.password}
                         className="mt-1 block w-full"
                         autoComplete="current-password"
-                        label="password"
+                        label="Password"
                         register={register}
                     />
                 </div>
 
-                <div className="flex items-center justify-end mt-4">
-                    {canResetPassword && (
-                        <Link
-                            href={"password/request"}
-                            className="underline text-sm text-gray-600 hover:text-gray-900"
-                        >
-                            Forgot your password?
-                        </Link>
-                    )}
-
-                    <Button className="ml-4">Log in</Button>
+                <div className="mt-10">
+                    <Button className= "w-full" size="md">Login</Button>
                 </div>
             </form>
-        </>
+        </div>
     );
 }

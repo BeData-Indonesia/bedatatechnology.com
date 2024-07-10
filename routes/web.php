@@ -62,7 +62,12 @@ Route::prefix('/admin')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/articles/create', function () {
         return Inertia::render('admin/articles/create');
     });
-    
+    Route::prefix('/contact_us')->group(function () {
+        Route::get('/', [ContactUsController::class, 'index'])->name('contactUs.index');
+        Route::get('/edit/{contactUs}', [ContactUsController::class, 'edit'])->name('contactUs.edit');
+        Route::put('/edit/{contactUs}', [ContactUsController::class, 'update'])->name('contactUs.update');
+        Route::delete('/{contactUs}', [ContactUsController::class, 'destroy'])->name('contactUs.destroy');
+    });
 });
 
 
