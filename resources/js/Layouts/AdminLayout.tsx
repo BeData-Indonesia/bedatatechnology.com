@@ -4,6 +4,7 @@ const listMenu = [
     { url: "/admin", title: "Dashboard" },
     { url: "/admin/articles", title: "Articles" },
     { url: "/admin/category_article", title: "Category Article" },
+    { url: "/admin/images_gallery", title: "Images Gallery" },
     { url: "/admin/contact_us", title: "Contact Us Admin" },
 ];
 

@@ -1,6 +1,7 @@
 import { Inertia } from "@inertiajs/inertia";
 import { InertiaLink } from "@inertiajs/inertia-react";
 import AdminLayout from "resources/js/Layouts/AdminLayout";
+import { useState } from "react";
 import Topic from "resources/js/components/molecules/Topic/Topic";
 
 interface Contact {
@@ -21,11 +22,14 @@ interface ContactUsProps {
 }
 
 const ContactUsAdmin: React.FC<ContactUsProps> = ({ contactUs }) => {
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
     const handleDelete = (id: number) => {
         if (confirm("Are you sure you want to delete this feedback?")) {
             Inertia.delete(`/admin/contact_us/${id}`, {
                 onSuccess: () => {
-                    alert("Feedback deleted successfully");
+                    setSuccessMessage("Feedback deleted successfully");
+                    setTimeout(() => setSuccessMessage(null), 3000);
                     Inertia.reload();
                 },
             });
@@ -34,6 +38,11 @@ const ContactUsAdmin: React.FC<ContactUsProps> = ({ contactUs }) => {
 
     return (
         <AdminLayout>
+            {successMessage && (
+                <div className="fixed bottom-0 left-1/2 mb-4 bg-gray-500 text-white py-2 px-4 rounded-lg shadow-lg z-50">
+                    {successMessage}
+                </div>
+            )}
             <div className="text-xl font-bold">Contact Us Management</div>
             <table className="table-auto w-full mt-6">
                 <thead>
@@ -61,7 +70,7 @@ const ContactUsAdmin: React.FC<ContactUsProps> = ({ contactUs }) => {
                             <td className="border px-4 py-2">
                                 <InertiaLink
                                     href={`/admin/contact_us/edit/${contact.id}`}
-                                    className="btn btn-primary"
+                                    className="btn btn-primary ml-2 mb-2"
                                 >
                                     Edit
                                 </InertiaLink>

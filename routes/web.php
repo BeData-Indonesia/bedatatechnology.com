@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ContactUsController;
+use App\Http\Controllers\ImagesGalleryController;
 use App\Http\Controllers\CategoryArticleController;
 use App\Models\ContactUs;
 use Illuminate\Foundation\Application;
@@ -67,6 +68,14 @@ Route::prefix('/admin')->middleware(['auth', 'verified'])->group(function () {
         Route::get('/edit/{contactUs}', [ContactUsController::class, 'edit'])->name('contactUs.edit');
         Route::put('/edit/{contactUs}', [ContactUsController::class, 'update'])->name('contactUs.update');
         Route::delete('/{contactUs}', [ContactUsController::class, 'destroy'])->name('contactUs.destroy');
+    });
+    Route::prefix('/images_gallery')->group(function () {
+        Route::get('/', [ImagesGalleryController::class, 'index'])->name('images.index');
+        Route::get('/create', [ImagesGalleryController::class, 'create'])->name('images.create');
+        Route::post('/create', [ImagesGalleryController::class, 'store'])->name('images.store');
+        Route::get('/edit/{imagesGallery}', [ImagesGalleryController::class, 'edit'])->name('images.edit');
+        Route::put('/edit/{imagesGallery}', [ImagesGalleryController::class, 'update'])->name('images.update');
+        Route::delete('/{imagesGallery}', [ImagesGalleryController::class, 'destroy'])->name('images.destroy');
     });
 });
 
