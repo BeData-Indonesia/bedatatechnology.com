@@ -2106,9 +2106,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var listMenu = [{
+  title: "Dashboard",
   url: "/admin",
-  title: "Dashboard"
+  submenu: []
 }, {
+<<<<<<< HEAD
   url: "/admin/articles",
   title: "Articles"
 }, {
@@ -2120,54 +2122,79 @@ var listMenu = [{
 }, {
   url: "/admin/contact_us",
   title: "Contact Us Admin"
+=======
+  title: "Articles",
+  submenu: [{
+    title: "Menu Article",
+    url: "/admin/articles"
+  }, {
+    title: "Category Article",
+    url: "/admin/category_article"
+  }]
+>>>>>>> 60d57fb611f3f4391e9fa3d9d08b12ed4f0df281
 }];
 function AdminLayout(_a) {
   var children = _a.children;
-  return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+  return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+    className: "bg-white",
     children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-      className: " bg-white",
-      children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-        className: " flex",
-        children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-          className: "drawer lg:drawer-open",
-          children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
-            id: "my-drawer-2",
-            type: "checkbox",
-            className: "drawer-toggle"
-          }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-            className: "drawer-content",
-            children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-              className: "bg-white min-h-screen px-8 py-12",
-              children: children
-            }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", {
-              htmlFor: "my-drawer-2",
-              className: "btn   drawer-button lg:hidden",
-              children: "Open drawer"
-            })]
-          }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-            className: "drawer-side bg-primary",
-            children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", {
-              htmlFor: "my-drawer-2",
-              "aria-label": "close sidebar",
-              className: "drawer-overlay h-6"
-            }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-              className: " min-h-full",
-              children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("ul", {
-                className: "menu p-4 w-80  flex flex-col gap-4 bg-primary  text-white",
-                children: listMenu.map(function (m, i) {
-                  return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", {
-                    className: "",
-                    children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_1__.Link, {
-                      href: m.url,
-                      className: " hover:bg-secondary hover:bg-opacity-90",
-                      children: m.title
-                    })
-                  }, m.title + i);
-                })
-              })
-            })]
+      className: "flex",
+      children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+        className: "drawer lg:drawer-open",
+        children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+          id: "my-drawer-2",
+          type: "checkbox",
+          className: "drawer-toggle"
+        }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+          className: "drawer-content",
+          children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+            className: "bg-white min-h-screen px-8 py-12",
+            children: children
+          }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", {
+            htmlFor: "my-drawer-2",
+            className: "btn drawer-button lg:hidden",
+            children: "Open drawer"
           })]
-        })
+        }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+          className: "drawer-side bg-primary",
+          children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", {
+            htmlFor: "my-drawer-2",
+            "aria-label": "close sidebar",
+            className: "drawer-overlay h-6"
+          }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+            className: "min-h-full",
+            children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("ul", {
+              className: "menu p-4 w-80 flex flex-col gap-4 bg-primary text-white",
+              children: listMenu.map(function (m, i) {
+                return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", {
+                  children: m.submenu.length > 0 ? (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("details", {
+                    open: true,
+                    children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("summary", {
+                      className: "py-3",
+                      children: m.title
+                    }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("ul", {
+                      className: "pl-6 py-3",
+                      children: m.submenu.map(function (sub, j) {
+                        return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", {
+                          className: "py-1",
+                          children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_1__.Link, {
+                            href: sub.url,
+                            className: "hover:bg-secondary hover:bg-opacity-90",
+                            children: sub.title
+                          })
+                        }, sub.title + j);
+                      })
+                    })]
+                  }) : m.url && (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_1__.Link, {
+                    href: m.url,
+                    className: "hover:bg-secondary hover:bg-opacity-90",
+                    children: m.title
+                  })
+                }, m.title + i);
+              })
+            })
+          })]
+        })]
       })
     })
   });
@@ -2959,34 +2986,68 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 /* harmony import */ var resources_js_Layouts_AdminLayout__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! resources/js/Layouts/AdminLayout */ "./resources/js/Layouts/AdminLayout.tsx");
 /* harmony import */ var draft_js_dist_Draft_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! draft-js/dist/Draft.css */ "./node_modules/draft-js/dist/Draft.css");
-/* harmony import */ var react_draft_wysiwyg_dist_react_draft_wysiwyg_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-draft-wysiwyg/dist/react-draft-wysiwyg.css */ "./node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css");
-/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
-/* harmony import */ var _inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_draft_wysiwyg_dist_react_draft_wysiwyg_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-draft-wysiwyg/dist/react-draft-wysiwyg.css */ "./node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css");
+/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+/* harmony import */ var _inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
+/* harmony import */ var resources_js_components_molecules_Pagination_Pagination__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! resources/js/components/molecules/Pagination/Pagination */ "./resources/js/components/molecules/Pagination/Pagination.tsx");
 
 
 
 
 
 
-var CategoryIndex = function CategoryIndex(_a) {
-  var categories = _a.categories;
+
+
+var CategoryIndex = function CategoryIndex() {
+  var categories = (0,_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_6__.usePage)().props.categories;
+  var searchParams = new URLSearchParams(window.location.search);
+  var initialPage = parseInt(searchParams.get('page') || '1', 10);
+  var _a = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(initialPage),
+    currentPage = _a[0],
+    setCurrentPage = _a[1];
+  var _b = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(10),
+    categoriesPerPage = _b[0],
+    setCategoriesPerPage = _b[1];
+  var _c = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)([]),
+    displayedCategories = _c[0],
+    setDisplayedCategories = _c[1];
+  var totalPages = Math.ceil(((categories === null || categories === void 0 ? void 0 : categories.length) || 0) / categoriesPerPage);
+  (0,react__WEBPACK_IMPORTED_MODULE_3__.useEffect)(function () {
+    var startIndex = (currentPage - 1) * categoriesPerPage;
+    var endIndex = startIndex + categoriesPerPage;
+    var slicedCategories = (categories || []).slice(startIndex, endIndex);
+    setDisplayedCategories(slicedCategories);
+  }, [categories, currentPage, categoriesPerPage]);
+  var handlePageChange = function handlePageChange(page) {
+    setCurrentPage(page);
+    // Update URL without reloading the page
+    _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_5__.Inertia.visit(window.location.pathname + "?page=".concat(page), {
+      replace: true
+    });
+  };
   var handleDelete = function handleDelete(id) {
-    if (confirm("Are you sure you want to delete this category?")) {
-      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_4__.Inertia["delete"]("/admin/category_article/".concat(id), {
+    if (confirm('Are you sure you want to delete this category?')) {
+      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_5__.Inertia["delete"]("/admin/category_article/".concat(id), {
         onSuccess: function onSuccess() {
-          alert("Category deleted successfully");
-          _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_4__.Inertia.reload();
+          alert('Category deleted successfully');
+          _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_5__.Inertia.reload();
         }
       });
     }
   };
+  if (!categories) {
+    return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+      children: "Loading..."
+    });
+  }
   return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(resources_js_Layouts_AdminLayout__WEBPACK_IMPORTED_MODULE_1__["default"], {
     children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
       className: "",
       children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-        className: "text-xl font-bold  ",
+        className: "text-xl font-bold",
         children: "Category Management"
-      }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_5__.InertiaLink, {
+      }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_6__.InertiaLink, {
         href: "/admin/category_article/create",
         className: "btn btn-primary mb-4",
         children: "Create New Category"
@@ -2995,22 +3056,22 @@ var CategoryIndex = function CategoryIndex(_a) {
         children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("thead", {
           children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
             children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
-              className: "px-4 py-2",
+              className: "border px-4 py-2",
               children: "Name"
             }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
-              className: "px-4 py-2",
+              className: "border px-4 py-2",
               children: "Actions"
             })]
           })
         }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tbody", {
-          children: categories.map(function (category) {
+          children: displayedCategories.map(function (category) {
             return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
               children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
                 className: "border px-4 py-2",
                 children: category.name
               }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("td", {
                 className: "border px-4 py-2",
-                children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_5__.InertiaLink, {
+                children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_6__.InertiaLink, {
                   href: "/admin/category_article/edit/".concat(category.id),
                   className: "btn btn-primary mr-2",
                   children: "Edit"
@@ -3025,6 +3086,10 @@ var CategoryIndex = function CategoryIndex(_a) {
             }, category.id);
           })
         })]
+      }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(resources_js_components_molecules_Pagination_Pagination__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        currentPage: currentPage,
+        totalPages: totalPages,
+        onPageChange: handlePageChange
       })]
     })
   });
@@ -3921,6 +3986,7 @@ function Dashboard(_a) {
     })]
   });
 }
+<<<<<<< HEAD
 
 /***/ }),
 
@@ -4188,6 +4254,8 @@ var ImagesGallery = function ImagesGallery(_a) {
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ImagesGallery);
+=======
+>>>>>>> 60d57fb611f3f4391e9fa3d9d08b12ed4f0df281
 
 /***/ }),
 
@@ -4244,7 +4312,12 @@ function Login(_a) {
     };
   }, []);
   var submit = function submit(data) {
+<<<<<<< HEAD
     _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_7__.Inertia.post("login", data);
+=======
+    console.log(data);
+    _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_7__.Inertia.post('login', data);
+>>>>>>> 60d57fb611f3f4391e9fa3d9d08b12ed4f0df281
   };
   return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
     className: "px-5 py-3 lg:px-24 lg:py-16 flex flex-col gap-16 font-poppins",
@@ -6245,6 +6318,73 @@ var Menu = function Menu(_a) {
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Menu);
+
+/***/ }),
+
+/***/ "./resources/js/components/molecules/Pagination/Pagination.tsx":
+/*!*********************************************************************!*\
+  !*** ./resources/js/components/molecules/Pagination/Pagination.tsx ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+var Pagination = function Pagination(_a) {
+  var currentPage = _a.currentPage,
+    totalPages = _a.totalPages,
+    onPageChange = _a.onPageChange;
+  var isFirstPage = currentPage === 1;
+  var isLastPage = currentPage === totalPages;
+  var handlePageChange = function handlePageChange(page) {
+    onPageChange(page);
+  };
+  var handlePrevClick = function handlePrevClick() {
+    if (!isFirstPage) {
+      handlePageChange(currentPage - 1);
+    }
+  };
+  var handleNextClick = function handleNextClick() {
+    if (!isLastPage) {
+      handlePageChange(currentPage + 1);
+    }
+  };
+  var renderPageNumbers = function renderPageNumbers() {
+    var pageNumbers = [];
+    var _loop_1 = function _loop_1(i) {
+      pageNumbers.push((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
+        onClick: function onClick() {
+          return handlePageChange(i);
+        },
+        className: "px-2 py-1 mx-1 rounded-md ".concat(currentPage === i ? 'text-white bg-primary' : 'bg-gray-200 text-gray-600'),
+        children: i
+      }, i));
+    };
+    for (var i = 1; i <= totalPages; i++) {
+      _loop_1(i);
+    }
+    return pageNumbers;
+  };
+  return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+    className: "flex justify-center mt-4",
+    children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
+      onClick: handlePrevClick,
+      disabled: isFirstPage,
+      className: "px-4 py-2 rounded-md ".concat(isFirstPage ? 'opacity-50 cursor-not-allowed bg-gray-200' : 'bg-gray-200'),
+      children: "\xAB"
+    }), renderPageNumbers(), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
+      onClick: handleNextClick,
+      disabled: isLastPage,
+      className: "px-4 py-2 rounded-md ".concat(isLastPage ? 'opacity-50 cursor-not-allowed bg-gray-200' : 'bg-gray-200'),
+      children: "\xBB"
+    })]
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Pagination);
 
 /***/ }),
 
