@@ -1,17 +1,28 @@
 import { Link } from "@inertiajs/inertia-react";
+import { url } from "inspector";
 
 const listMenu = [
-    { 
-        title: "Dashboard", 
-        url: "/admin", 
-        submenu: [] 
+    {
+        title: "Dashboard",
+        url: "/admin",
+        submenu: []
     },
-    { 
-        title: "Articles", 
+    {
+        title: "Articles",
         submenu: [
             { title: "Menu Article", url: "/admin/articles" },
             { title: "Category Article", url: "/admin/category_article" }
-        ] 
+        ]
+    },
+    {
+        title: "Images Gallery",
+        url: "/admin/images_gallery",
+        submenu: []
+    },
+    {
+        title: "Contact Us Admin",
+        url: "/admin/contact_us",
+        submenu: []
     },
 ];
 

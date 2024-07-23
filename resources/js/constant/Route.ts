@@ -1,3 +1,5 @@
+import ImagesGallery from "../pages/admin/images_gallery";
+
 export const Route = {
     home: "/",
 
@@ -16,4 +18,9 @@ export const Route = {
 
     articles: "/admin/articles/",
     "create-article": "/admin/articles/create",
+
+    ImagesGallery: "/admin/imagesGallery",
+    "create-images": "/admin/imagesGallery/create",
+
+    contactUsAdmin: "/admin/contact_us/",
 };

@@ -9,17 +9,13 @@ use Inertia\Inertia;
 
 class ContactUsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         //
         $contactUsData = new ContactUsCollection(ContactUs::paginate(10));
-        dd($contactUsData);
-        
+
+        return Inertia::render('admin/contact_us', ['contactUs' => $contactUsData]);
+
         // return Inertia::render('Home', [
         //     'title' => "CUY UNIVERSE HOME",
         //     'description' => "Selamat Datang Di Cuy Universe News Portal",
@@ -27,11 +23,7 @@ class ContactUsController extends Controller
         // ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create(Request $request)
 
     {
@@ -42,26 +34,28 @@ class ContactUsController extends Controller
         $form->inquiry =$request->inquiry;
         $form->save();
         return  redirect()->to('contact-us')->with('message','berhasil');
-        
+
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
-        //
+        // Validasi data request
+        $request->validate([
+            'email' => 'required|email|max:255',
+            'name' => 'required|max:255',
+            'company' => 'required|max:255',
+            'inquiry' => 'required|max:1000',
+        ]);
+
+        // Membuat entri baru
+        ContactUs::create($request->all());
+
+        // Redirect ke halaman index dengan pesan sukses
+        return redirect()->route('contactUs.index')->with('message', 'Contact us entry created successfully');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\ContactUs  $contactUs
-     * @return \Illuminate\Http\Response
-     */
+
     public function show(ContactUs $contactUs)
     {
         $contactUsData = new ContactUsCollection(ContactUs::paginate(10));
@@ -70,37 +64,38 @@ class ContactUsController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\ContactUs  $contactUs
-     * @return \Illuminate\Http\Response
-     */
     public function edit(ContactUs $contactUs)
     {
-        //
+        // Menampilkan halaman edit
+        return Inertia::render('admin/contact_us/edit', ['contactUs' => $contactUs]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ContactUs  $contactUs
-     * @return \Illuminate\Http\Response
-     */
+    
     public function update(Request $request, ContactUs $contactUs)
     {
-        //
+        // Validasi data request
+        $request->validate([
+            'email' => 'required|email|max:255',
+            'name' => 'required|max:255',
+            'company' => 'required|max:255',
+            'inquiry' => 'required|max:1000',
+        ]);
+
+        // Update data
+        $contactUs->update($request->all());
+
+        // Redirect ke halaman index dengan pesan sukses
+        return redirect()->route('contactUs.index')->with('message', 'Contact us entry updated successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\ContactUs  $contactUs
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy(ContactUs $contactUs)
     {
-        //
+        try {
+            $contactUs->delete();
+            return redirect()->route('contactUs.index')->with('success', 'Contact us entry deleted successfully');
+        } catch (\Exception $e) {
+            return redirect()->route('contactUs.index')->with('error', 'Failed to delete contact us entry');
+        }
     }
 }
