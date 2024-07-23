@@ -47,32 +47,7 @@ Route::prefix('/services')->group(function () {
     })->name('services');
 });
 
-// Route::prefix('/admin')->middleware(['auth', 'verified'])->group(function () {
-//     Route::prefix('category_article')->group(function () {
-//         Route::get('/', [CategoryArticleController::class, 'index'])->name('categories.index');
-//         Route::get('/create', [CategoryArticleController::class, 'create'])->name('categories.create');
-//         Route::post('/create', [CategoryArticleController::class, 'store'])->name('categories.store');
-//         Route::get('/edit/{category}', [CategoryArticleController::class, 'edit'])->name('categories.edit');
-//         Route::put('/edit/{category}', [CategoryArticleController::class, 'update'])->name('categories.update');
-//         Route::delete('/{category}', [CategoryArticleController::class, 'destroy'])->name('categories.destroy');
-//     });
-//     Route::get('/', [ContactUsController::class, "show"]);
-//     Route::get('/articles', function () {
-//         return Inertia::render('admin/articles');
-//     });
-//     Route::get('/articles/create', function () {
-//         return Inertia::render('admin/articles/create');
-//     });
-// });
-
-Route::prefix('/admin')->group(function () {
-    Route::get('/', [ContactUsController::class, "show"]);
-    Route::get('/articles', function () {
-        return Inertia::render('admin/articles');
-    });
-    Route::get('/articles/create', function () {
-        return Inertia::render('admin/articles/create');
-    });
+Route::prefix('/admin')->middleware(['auth', 'verified'])->group(function () {
     Route::prefix('category_article')->group(function () {
         Route::get('/', [CategoryArticleController::class, 'index'])->name('categories.index');
         Route::get('/create', [CategoryArticleController::class, 'create'])->name('categories.create');
@@ -81,7 +56,14 @@ Route::prefix('/admin')->group(function () {
         Route::put('/edit/{category}', [CategoryArticleController::class, 'update'])->name('categories.update');
         Route::delete('/{category}', [CategoryArticleController::class, 'destroy'])->name('categories.destroy');
     });
-    
+    Route::get('/', [ContactUsController::class, "show"]);
+    Route::get('/articles', function () {
+        return Inertia::render('admin/articles');
+    });
+    Route::get('/articles/create', function () {
+        return Inertia::render('admin/articles/create');
+    });
+
     Route::get('/', [ContactUsController::class, "show"]);
     Route::get('/articles', function () {
         return Inertia::render('admin/articles');
@@ -105,9 +87,45 @@ Route::prefix('/admin')->group(function () {
     });
 });
 
+// Testing without middleware auth
+// Route::prefix('/admin')->group(function () {
+//     Route::get('/', [ContactUsController::class, "show"]);
+//     Route::get('/articles', function () {
+//         return Inertia::render('admin/articles');
+//     });
+//     Route::get('/articles/create', function () {
+//         return Inertia::render('admin/articles/create');
+//     });
+//     Route::prefix('category_article')->group(function () {
+//         Route::get('/', [CategoryArticleController::class, 'index'])->name('categories.index');
+//         Route::get('/create', [CategoryArticleController::class, 'create'])->name('categories.create');
+//         Route::post('/create', [CategoryArticleController::class, 'store'])->name('categories.store');
+//         Route::get('/edit/{category}', [CategoryArticleController::class, 'edit'])->name('categories.edit');
+//         Route::put('/edit/{category}', [CategoryArticleController::class, 'update'])->name('categories.update');
+//         Route::delete('/{category}', [CategoryArticleController::class, 'destroy'])->name('categories.destroy');
+//     });
 
-// Route::get('/articles/category', function () {
-//     return Inertia::render('admin/articles/category');
+//     Route::get('/', [ContactUsController::class, "show"]);
+//     Route::get('/articles', function () {
+//         return Inertia::render('admin/articles');
+//     });
+//     Route::get('/articles/create', function () {
+//         return Inertia::render('admin/articles/create');
+//     });
+//     Route::prefix('/contact_us')->group(function () {
+//         Route::get('/', [ContactUsController::class, 'index'])->name('contactUs.index');
+//         Route::get('/edit/{contactUs}', [ContactUsController::class, 'edit'])->name('contactUs.edit');
+//         Route::put('/edit/{contactUs}', [ContactUsController::class, 'update'])->name('contactUs.update');
+//         Route::delete('/{contactUs}', [ContactUsController::class, 'destroy'])->name('contactUs.destroy');
+//     });
+//     Route::prefix('/images_gallery')->group(function () {
+//         Route::get('/', [ImagesGalleryController::class, 'index'])->name('images.index');
+//         Route::get('/create', [ImagesGalleryController::class, 'create'])->name('images.create');
+//         Route::post('/create', [ImagesGalleryController::class, 'store'])->name('images.store');
+//         Route::get('/edit/{imagesGallery}', [ImagesGalleryController::class, 'edit'])->name('images.edit');
+//         Route::put('/edit/{imagesGallery}', [ImagesGalleryController::class, 'update'])->name('images.update');
+//         Route::delete('/{imagesGallery}', [ImagesGalleryController::class, 'destroy'])->name('images.destroy');
+//     });
 // });
 
 Route::get('/about-us', function () {
