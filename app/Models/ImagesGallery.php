@@ -10,6 +10,7 @@ class ImagesGallery extends Model
     use HasFactory;
 
     protected $fillable = [
+        'title',
         'filename',
         'path',
     ];
