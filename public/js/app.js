@@ -3679,7 +3679,7 @@ var EditContactUs = function EditContactUs(_a) {
         children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", {
           htmlFor: "email",
           className: "block text-gray-700",
-          children: "Email:"
+          children: "Email"
         }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
           type: "email",
           id: "email",
@@ -3697,7 +3697,7 @@ var EditContactUs = function EditContactUs(_a) {
         children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", {
           htmlFor: "name",
           className: "block text-gray-700",
-          children: "Name:"
+          children: "Name"
         }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
           type: "text",
           id: "name",
@@ -3715,7 +3715,7 @@ var EditContactUs = function EditContactUs(_a) {
         children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", {
           htmlFor: "company",
           className: "block text-gray-700",
-          children: "Company:"
+          children: "Company"
         }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
           type: "text",
           id: "company",
@@ -3733,7 +3733,7 @@ var EditContactUs = function EditContactUs(_a) {
         children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", {
           htmlFor: "inquiry",
           className: "block text-gray-700",
-          children: "Inquiry:"
+          children: "Inquiry"
         }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("textarea", {
           id: "inquiry",
           className: "form-input mt-1 block w-full",
@@ -4034,19 +4034,19 @@ var CreateImageGallery = function CreateImageGallery() {
         className: "mb-4",
         children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", {
           htmlFor: "title",
-          className: "block text-gray-700",
-          children: "Title:"
+          className: "block text-gray-700 font-bold",
+          children: "Title"
         }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
           type: "text",
           id: "title",
-          className: "form-input mt-1 block w-full",
+          className: "form-input mt-1 block w-full mb-2",
           value: title,
           onChange: function onChange(e) {
             return setTitle(e.target.value);
           }
         }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", {
           className: "block text-gray-700 text-sm font-bold mb-2",
-          children: "Select Image:"
+          children: "Select Image"
         }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
           type: "file",
           onChange: function onChange(e) {
@@ -4140,7 +4140,7 @@ var EditImageGallery = function EditImageGallery(_a) {
         children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", {
           htmlFor: "title",
           className: "block text-gray-700",
-          children: "Title:"
+          children: "Title"
         }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
           type: "text",
           id: "title",
@@ -4154,7 +4154,7 @@ var EditImageGallery = function EditImageGallery(_a) {
           children: errors.title
         }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", {
           className: "block text-gray-700 text-sm font-bold mb-2",
-          children: "Select Image:"
+          children: "Select Image"
         }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
           type: "file",
           onChange: function onChange(e) {

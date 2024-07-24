@@ -28,18 +28,18 @@ const CreateImageGallery: React.FC = () => {
                 className="mt-4"
             >
                 <div className="mb-4">
-                    <label htmlFor="title" className="block text-gray-700">
-                        Title:
+                    <label htmlFor="title" className="block text-gray-700 font-bold">
+                        Title
                     </label>
                     <input
                         type="text"
                         id="title"
-                        className="form-input mt-1 block w-full"
+                        className="form-input mt-1 block w-full mb-2"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                     />
                     <label className="block text-gray-700 text-sm font-bold mb-2">
-                        Select Image:
+                        Select Image
                     </label>
                     <input
                         type="file"

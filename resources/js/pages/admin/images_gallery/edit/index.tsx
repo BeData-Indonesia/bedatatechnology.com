@@ -55,7 +55,7 @@ const EditImageGallery: React.FC<Props> = ({ imagesGallery, errors }) => {
             >
                 <div className="mb-4">
                     <label htmlFor="title" className="block text-gray-700">
-                        Title:
+                        Title
                     </label>
                     <input
                         type="text"
@@ -68,7 +68,7 @@ const EditImageGallery: React.FC<Props> = ({ imagesGallery, errors }) => {
                         <div className="text-red-500">{errors.title}</div>
                     )}
                     <label className="block text-gray-700 text-sm font-bold mb-2">
-                        Select Image:
+                        Select Image
                     </label>
                     <input
                         type="file"
