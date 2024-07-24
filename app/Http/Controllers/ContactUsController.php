@@ -70,7 +70,7 @@ class ContactUsController extends Controller
         return Inertia::render('admin/contact_us/edit', ['contactUs' => $contactUs]);
     }
 
-    
+
     public function update(Request $request, ContactUs $contactUs)
     {
         // Validasi data request
