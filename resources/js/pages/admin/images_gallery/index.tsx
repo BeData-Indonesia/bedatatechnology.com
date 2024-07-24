@@ -5,6 +5,15 @@ import { useState } from "react";
 
 const ImagesGallery: React.FC = ({ imagesGallery }: any) => {
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
+    const [selectedImage, setSelectedImage] = useState<any>(null);
+
+    const handleOpenModal = (image: any) => {
+        setSelectedImage(image);
+    };
+
+    const handleCloseModal = () => {
+        setSelectedImage(null);
+    };
 
     if (!Array.isArray(imagesGallery)) {
         imagesGallery = [];
@@ -36,7 +45,7 @@ const ImagesGallery: React.FC = ({ imagesGallery }: any) => {
             <InertiaLink
                 href="/admin/images_gallery/create"
                 className="btn btn-primary mb-5"
-                >
+            >
                 Add New Image
             </InertiaLink>
             <div className="flex flex-wrap gap-4">
@@ -48,27 +57,35 @@ const ImagesGallery: React.FC = ({ imagesGallery }: any) => {
                 {imagesGallery.map((image: any) => (
                     <div
                         key={image.id}
-                        className="relative bg-gray-400 border border-gray-200 rounded-lg overflow-hidden group"
+                        className="relative bg-gray-400 border border-gray-200 rounded-lg group w-60"
                     >
                         <img
                             src={`/storage/${image.path}`}
                             alt={image.filename}
-                            className="w-60 h-60 object-cover border border-gray-300"
+                            className="w-full h-60 object-cover border border-gray-300 rounded-md"
                         />
-                        <div className="absolute inset-0 w-full bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center p-4 transition-all duration-300">
-                            <div className="text-white text-md mb-5">
-                                {`Image: ${image.filename}`}
+                        <div className="absolute inset-0 w-full bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center p-4 transition-all duration-300 rounded-md">
+                            <div className="text-white text-md mb-3 bg-black bg-opacity-40 p-4 rounded-sm w-full text-center overflow-hidden">
+                                <p className="text-ellipsis overflow-hidden whitespace-nowrap">{`Title: ${image.title}`}</p>
+                                <p className="text-ellipsis overflow-hidden whitespace-nowrap">{`Image: ${image.filename}`}</p>
                             </div>
+                            <button
+                                onClick={() => handleOpenModal(image)}
+                                className="btn btn-primary text-sm px-4 py-2 mb-3"
+                            >
+                                View Details
+                            </button>
                             <div className="flex space-x-2">
                                 <button
                                     onClick={() => handleCopy(image.path)}
-                                    className="text-sm mb-2 btn btn-outline border-gray-300 ml-2 px-2 py-0 rounded-md text-gray-300"
+                                    className="text-sm mb-2 btn btn-outline border-gray-300 px-2 py-0 rounded-md text-gray-300"
+                                    title={`Path: ${image.path}`}
                                 >
                                     Copy Path
                                 </button>
                                 <button
                                     onClick={() => handleDelete(image.id)}
-                                    className="btn btn-danger text-md px-2 py-0"
+                                    className="btn btn-danger text-md px-4 py-0"
                                 >
                                     Delete
                                 </button>
@@ -77,6 +94,38 @@ const ImagesGallery: React.FC = ({ imagesGallery }: any) => {
                     </div>
                 ))}
             </div>
+
+            {selectedImage && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="bg-white p-8 rounded-lg">
+                        <h2 className="text-xl font-bold mb-4">
+                            Image Details
+                        </h2>
+                        <p>
+                            <strong>Title:</strong> {selectedImage.title}
+                        </p>
+                        <p>
+                            <strong>Image:</strong> {selectedImage.filename}
+                        </p>
+                        <p>
+                            <strong>Path:</strong> {selectedImage.path}
+                        </p>
+                        <button
+                            onClick={() => handleCopy(selectedImage.path)}
+                            className="text-sm btn btn-outline px-2 py-0 rounded-md mr-2"
+                            title={`Path: ${selectedImage.path}`}
+                        >
+                            Copy Path
+                        </button>
+                        <button
+                            onClick={handleCloseModal}
+                            className="btn btn-primary mt-4"
+                        >
+                            Close
+                        </button>
+                    </div>
+                </div>
+            )}
         </AdminLayout>
     );
 };
