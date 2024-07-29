@@ -1,6 +1,6 @@
 import Button from "../../components/atoms/Button/Button";
 
-import Input from "../../components/molecules/Input/Input";
+import { Input } from "../../components/molecules/Input/Input";
 
 import { Head, Link } from "@inertiajs/inertia-react";
 import * as React from "react";
@@ -47,7 +47,7 @@ export default function Login({ status, canResetPassword }) {
                     <Input
                         error={errors.email}
                         label="Email"
-                        register={register}
+                        register={register('email')}
                         type="email"
                         name="email"
                     />
@@ -61,7 +61,7 @@ export default function Login({ status, canResetPassword }) {
                         className="mt-1 block w-full"
                         autoComplete="current-password"
                         label="Password"
-                        register={register}
+                        register={register('password')}
                     />
                 </div>
 

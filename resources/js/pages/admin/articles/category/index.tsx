@@ -12,7 +12,7 @@ import htmlToDraft from "html-to-draftjs";
 import { parseDate } from "resources/js/lib/utils";
 import { Inertia } from "@inertiajs/inertia";
 import { InertiaLink, usePage } from "@inertiajs/inertia-react";
-import Input from "resources/js/components/molecules/Input/Input";
+import {Input} from "resources/js/components/molecules/Input/Input";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
