@@ -2,73 +2,83 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\ImagesGallery;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Inertia\Inertia;
 
 class ImagesGalleryController extends Controller
 {
     public function index()
     {
         $imagesGallery = ImagesGallery::all();
-        return Inertia::render('admin/images_gallery/index', ['imagesGallery' => $imagesGallery]);
+        return inertia('admin/images_gallery/index', ['imagesGallery' => $imagesGallery]);
     }
-
 
     public function create()
     {
-        return Inertia::render('admin/images_gallery/create');
+        return inertia('admin/images_gallery/create');
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'image' => 'required|image|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'title' => 'required|string|max:255',
         ]);
 
-        $path = $request->file('image')->store('images_gallery', 'public');
+        $imagePath = $request->file('image')->store('images_gallery', 'public');
 
-        ImagesGallery::create([
-            'filename' => $request->file('image')->getClientOriginalName(),
-            'path' => $path,
+        $image = new ImagesGallery();
+        $image->title = $request->input('title');
+        $image->filename = $request->file('image')->getClientOriginalName();
+        $image->path = $imagePath;
+        $image->save();
+
+        return redirect()->route('images.index')->with('success', 'Image uploaded successfully.');
+    }
+
+    public function edit($id)
+    {
+        $image = ImagesGallery::findOrFail($id);
+        return inertia('admin/images_gallery/edit', ['imagesGallery' => $image]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'title' => 'required|string|max:255',
         ]);
 
-        return redirect()->route('images.index')->with('message', 'Image uploaded successfully');
-    }
+        $image = ImagesGallery::findOrFail($id);
+        $image->title = $request->input('title');
 
-    public function edit(ImagesGallery $imagesGallery)
-    {
-        return Inertia::render('admin/images_gallery/edit', ['imagesGallery' => $imagesGallery]);
-    }
+        if ($request->hasFile('image')) {
+            // Delete old image
+            Storage::disk('public')->delete($image->path);
 
-    public function update(Request $request, ImagesGallery $imagesGallery)
-{
-    $request->validate([
-        'image' => 'required|image|max:2048',
-    ]);
-
-    // Delete old image
-    if ($imagesGallery->path) {
-        Storage::disk('public')->delete($imagesGallery->path);
-    }
-
-    $path = $request->file('image')->store('images_gallery', 'public');
-
-    $imagesGallery->update([
-        'filename' => $request->file('image')->getClientOriginalName(),
-        'path' => $path,
-    ]);
-
-    return redirect()->route('images.index')->with('message', 'Image updated successfully');
-}
-    public function destroy(ImagesGallery $imagesGallery)
-    {
-        if ($imagesGallery->path) {
-            Storage::disk('public')->delete($imagesGallery->path);
+            // Store new image
+            $imagePath = $request->file('image')->store('images', 'public');
+            $image->filename = $request->file('image')->getClientOriginalName();
+            $image->path = $imagePath;
         }
 
-        $imagesGallery->delete();
-        return redirect()->route('images.index')->with('message', 'Image deleted successfully');
+        $image->save();
+
+        return redirect()->route('images.index')->with('success', 'Image updated successfully.');
+    }
+
+    public function destroy($id)
+    {
+        $image = ImagesGallery::findOrFail($id);
+
+        // Delete the image file from storage
+        Storage::disk('public')->delete($image->path);
+
+        // Delete the image record from database
+        $image->delete();
+
+        return redirect()->route('images.index')->with('success', 'Image deleted successfully.');
     }
 }

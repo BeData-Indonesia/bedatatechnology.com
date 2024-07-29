@@ -2110,19 +2110,6 @@ var listMenu = [{
   url: "/admin",
   submenu: []
 }, {
-<<<<<<< HEAD
-  url: "/admin/articles",
-  title: "Articles"
-}, {
-  url: "/admin/category_article",
-  title: "Category Article"
-}, {
-  url: "/admin/images_gallery",
-  title: "Images Gallery"
-}, {
-  url: "/admin/contact_us",
-  title: "Contact Us Admin"
-=======
   title: "Articles",
   submenu: [{
     title: "Menu Article",
@@ -2131,7 +2118,14 @@ var listMenu = [{
     title: "Category Article",
     url: "/admin/category_article"
   }]
->>>>>>> 60d57fb611f3f4391e9fa3d9d08b12ed4f0df281
+}, {
+  title: "Images Gallery",
+  url: "/admin/images_gallery",
+  submenu: []
+}, {
+  title: "Contact Us Admin",
+  url: "/admin/contact_us",
+  submenu: []
 }];
 function AdminLayout(_a) {
   var children = _a.children;
@@ -3685,7 +3679,7 @@ var EditContactUs = function EditContactUs(_a) {
         children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", {
           htmlFor: "email",
           className: "block text-gray-700",
-          children: "Email:"
+          children: "Email"
         }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
           type: "email",
           id: "email",
@@ -3703,7 +3697,7 @@ var EditContactUs = function EditContactUs(_a) {
         children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", {
           htmlFor: "name",
           className: "block text-gray-700",
-          children: "Name:"
+          children: "Name"
         }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
           type: "text",
           id: "name",
@@ -3721,7 +3715,7 @@ var EditContactUs = function EditContactUs(_a) {
         children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", {
           htmlFor: "company",
           className: "block text-gray-700",
-          children: "Company:"
+          children: "Company"
         }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
           type: "text",
           id: "company",
@@ -3739,7 +3733,7 @@ var EditContactUs = function EditContactUs(_a) {
         children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", {
           htmlFor: "inquiry",
           className: "block text-gray-700",
-          children: "Inquiry:"
+          children: "Inquiry"
         }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("textarea", {
           id: "inquiry",
           className: "form-input mt-1 block w-full",
@@ -3986,7 +3980,6 @@ function Dashboard(_a) {
     })]
   });
 }
-<<<<<<< HEAD
 
 /***/ }),
 
@@ -4015,11 +4008,15 @@ var CreateImageGallery = function CreateImageGallery() {
   var _a = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(null),
     image = _a[0],
     setImage = _a[1];
+  var _b = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(""),
+    title = _b[0],
+    setTitle = _b[1];
   var handleSubmit = function handleSubmit(event) {
     event.preventDefault();
     var formData = new FormData();
     if (image) {
       formData.append("image", image);
+      formData.append("title", title);
       _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_1__.Inertia.post("/admin/images_gallery/create", formData, {
         forceFormData: true
       });
@@ -4036,8 +4033,20 @@ var CreateImageGallery = function CreateImageGallery() {
       children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
         className: "mb-4",
         children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", {
+          htmlFor: "title",
+          className: "block text-gray-700 font-bold",
+          children: "Title"
+        }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+          type: "text",
+          id: "title",
+          className: "form-input mt-1 block w-full mb-2",
+          value: title,
+          onChange: function onChange(e) {
+            return setTitle(e.target.value);
+          }
+        }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", {
           className: "block text-gray-700 text-sm font-bold mb-2",
-          children: "Select Image:"
+          children: "Select Image"
         }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
           type: "file",
           onChange: function onChange(e) {
@@ -4088,31 +4097,32 @@ var EditImageGallery = function EditImageGallery(_a) {
   var _b = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null),
     image = _b[0],
     setImage = _b[1];
-  var _c = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(""),
-    successMessage = _c[0],
-    setSuccessMessage = _c[1];
+  var _c = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(imagesGallery.title),
+    title = _c[0],
+    setTitle = _c[1];
+  var _d = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(""),
+    successMessage = _d[0],
+    setSuccessMessage = _d[1];
   var handleSubmit = function handleSubmit(event) {
     event.preventDefault();
     var formData = new FormData();
+    formData.append("title", title);
     if (image) {
       formData.append("image", image);
-      console.log("Form data before submit:", formData.get("image")); // Debugging log
-      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_2__.Inertia.put("/admin/images_gallery/edit/".concat(imagesGallery.id), formData, {
-        forceFormData: true,
-        onSuccess: function onSuccess() {
-          setSuccessMessage("Image updated successfully");
-          setTimeout(function () {
-            return setSuccessMessage("");
-          }, 3000);
-          _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_2__.Inertia.visit("/admin/images_gallery");
-        },
-        onError: function onError(errors) {
-          console.log(errors);
-        }
-      });
-    } else {
-      console.log("No image selected"); // Debugging log
     }
+    _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_2__.Inertia.put("/admin/images_gallery/edit/".concat(imagesGallery.id), formData, {
+      forceFormData: true,
+      onSuccess: function onSuccess() {
+        setSuccessMessage("Image updated successfully");
+        setTimeout(function () {
+          return setSuccessMessage("");
+        }, 3000);
+        _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_2__.Inertia.visit("/admin/images_gallery");
+      },
+      onError: function onError(errors) {
+        console.log(errors);
+      }
+    });
   };
   return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(resources_js_Layouts_AdminLayout__WEBPACK_IMPORTED_MODULE_4__["default"], {
     children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
@@ -4128,8 +4138,23 @@ var EditImageGallery = function EditImageGallery(_a) {
       children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
         className: "mb-4",
         children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", {
+          htmlFor: "title",
+          className: "block text-gray-700",
+          children: "Title"
+        }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+          type: "text",
+          id: "title",
+          className: "form-input mt-1 block w-full",
+          value: title,
+          onChange: function onChange(e) {
+            return setTitle(e.target.value);
+          }
+        }), errors.title && (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+          className: "text-red-500",
+          children: errors.title
+        }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", {
           className: "block text-gray-700 text-sm font-bold mb-2",
-          children: "Select Image:"
+          children: "Select Image"
         }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
           type: "file",
           onChange: function onChange(e) {
@@ -4183,6 +4208,15 @@ var ImagesGallery = function ImagesGallery(_a) {
   var _b = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(null),
     successMessage = _b[0],
     setSuccessMessage = _b[1];
+  var _c = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(null),
+    selectedImage = _c[0],
+    setSelectedImage = _c[1];
+  var handleOpenModal = function handleOpenModal(image) {
+    setSelectedImage(image);
+  };
+  var handleCloseModal = function handleCloseModal() {
+    setSelectedImage(null);
+  };
   if (!Array.isArray(imagesGallery)) {
     imagesGallery = [];
   }
@@ -4221,41 +4255,84 @@ var ImagesGallery = function ImagesGallery(_a) {
         children: successMessage
       }), imagesGallery.map(function (image) {
         return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-          className: "relative bg-gray-400 border border-gray-200 rounded-lg overflow-hidden group",
+          className: "relative bg-gray-400 border border-gray-200 rounded-lg group w-60",
           children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("img", {
             src: "/storage/".concat(image.path),
             alt: image.filename,
-            className: "w-60 h-60 object-cover border border-gray-300"
+            className: "w-full h-60 object-cover border border-gray-300 rounded-md"
           }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-            className: "absolute inset-0 w-full bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center p-4 transition-all duration-300",
-            children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-              className: "text-white text-md mb-5",
-              children: "Image: ".concat(image.filename)
+            className: "absolute inset-0 w-full bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center p-4 transition-all duration-300 rounded-md",
+            children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+              className: "text-white text-md mb-3 bg-black bg-opacity-40 p-4 rounded-sm w-full text-center overflow-hidden",
+              children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", {
+                className: "text-ellipsis overflow-hidden whitespace-nowrap",
+                children: "Title: ".concat(image.title)
+              }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", {
+                className: "text-ellipsis overflow-hidden whitespace-nowrap",
+                children: "Image: ".concat(image.filename)
+              })]
+            }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
+              onClick: function onClick() {
+                return handleOpenModal(image);
+              },
+              className: "btn btn-primary text-sm px-4 py-2 mb-3",
+              children: "View Details"
             }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
               className: "flex space-x-2",
               children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
                 onClick: function onClick() {
                   return handleCopy(image.path);
                 },
-                className: "text-sm mb-2 btn btn-outline border-gray-300 ml-2 px-2 py-0 rounded-md text-gray-300",
+                className: "text-sm mb-2 btn btn-outline border-gray-300 px-2 py-0 rounded-md text-gray-300",
+                title: "Path: ".concat(image.path),
                 children: "Copy Path"
               }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
                 onClick: function onClick() {
                   return handleDelete(image.id);
                 },
-                className: "btn btn-danger text-md px-2 py-0",
+                className: "btn btn-danger text-md px-4 py-0",
                 children: "Delete"
               })]
             })]
           })]
         }, image.id);
       })]
+    }), selectedImage && (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+      className: "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50",
+      children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+        className: "bg-white p-8 rounded-lg",
+        children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h2", {
+          className: "text-xl font-bold mb-4",
+          children: "Image Details"
+        }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("p", {
+          children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("strong", {
+            children: "Title:"
+          }), " ", selectedImage.title]
+        }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("p", {
+          children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("strong", {
+            children: "Image:"
+          }), " ", selectedImage.filename]
+        }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("p", {
+          children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("strong", {
+            children: "Path:"
+          }), " ", selectedImage.path]
+        }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
+          onClick: function onClick() {
+            return handleCopy(selectedImage.path);
+          },
+          className: "text-sm btn btn-outline px-2 py-0 rounded-md mr-2",
+          title: "Path: ".concat(selectedImage.path),
+          children: "Copy Path"
+        }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
+          onClick: handleCloseModal,
+          className: "btn btn-primary mt-4",
+          children: "Close"
+        })]
+      })
     })]
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ImagesGallery);
-=======
->>>>>>> 60d57fb611f3f4391e9fa3d9d08b12ed4f0df281
 
 /***/ }),
 
@@ -4312,12 +4389,7 @@ function Login(_a) {
     };
   }, []);
   var submit = function submit(data) {
-<<<<<<< HEAD
     _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_7__.Inertia.post("login", data);
-=======
-    console.log(data);
-    _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_7__.Inertia.post('login', data);
->>>>>>> 60d57fb611f3f4391e9fa3d9d08b12ed4f0df281
   };
   return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
     className: "px-5 py-3 lg:px-24 lg:py-16 flex flex-col gap-16 font-poppins",
