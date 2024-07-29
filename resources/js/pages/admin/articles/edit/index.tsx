@@ -1,6 +1,6 @@
 import AdminLayout from "resources/js/Layouts/AdminLayout";
 import Topic from "resources/js/components/molecules/Topic/Topic";
-import { EditorState, convertToRaw } from "draft-js";
+import { EditorState, convertToRaw, convertFromHTML, ContentState } from "draft-js";
 import "draft-js/dist/Draft.css";
 import { Editor } from "react-draft-wysiwyg";
 import { useState } from "react";
@@ -8,10 +8,21 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import Button from "resources/js/components/atoms/Button/Button";
 import draftToHtml from "draftjs-to-html";
 import { Inertia } from "@inertiajs/inertia";
-import { Input, TextArea } from "resources/js/components/molecules/Input/Input";
+import { Input } from "resources/js/components/molecules/Input/Input";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { usePage } from "@inertiajs/inertia-react";
+
+interface Article {
+    id: number;
+    title: string;
+    excerpt: string;
+    description: string;
+    image_url: string;
+    small_image_url: string;
+    content: string;
+  }
 
 interface FormData {
   title: string;
@@ -29,14 +40,32 @@ const validationSchema = yup.object().shape({
   small_image_url: yup.string().max(64, "Small Image URL must be at most 64 characters").nullable(),
 });
 
-const CreateArticle: React.FC = () => {
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+const EditArticle: React.FC = () => {
+    const pageProps = usePage().props;
+  
+    const article = (pageProps.article as Article | undefined) || null;
+  
+    if (!article) {
+      return <div>Loading...</div>;
+    }
+  
+  const blocksFromHTML = convertFromHTML(article.content || "");
+  const initialContentState = ContentState.createFromBlockArray(blocksFromHTML.contentBlocks, blocksFromHTML.entityMap);
+
+  const [editorState, setEditorState] = useState(EditorState.createWithContent(initialContentState));
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(validationSchema),
+    defaultValues: {
+      title: article.title,
+      excerpt: article.excerpt,
+      description: article.description,
+      image_url: article.image_url,
+      small_image_url: article.small_image_url,
+    }
   });
 
   const onSubmit = (data: FormData) => {
@@ -45,8 +74,8 @@ const CreateArticle: React.FC = () => {
       ...data,
       content,
     };
-    Inertia.post("/admin/articles", formData, {
-      onSuccess: () => alert("Article created successfully"),
+    Inertia.put(`/admin/articles/${article.id}`, formData, {
+      onSuccess: () => alert("Article updated successfully"),
       onError: (formErrors) => console.error("Form submission failed", formErrors),
     });
   };
@@ -58,7 +87,7 @@ const CreateArticle: React.FC = () => {
   return (
     <AdminLayout>
       <div>
-        <Topic>CREATE ARTICLE</Topic>
+        <Topic>EDIT ARTICLE</Topic>
         <form onSubmit={handleSubmit(onSubmit)} className="max-w-2xl mx-auto">
           <div className="mb-4">
             <Input
@@ -122,7 +151,7 @@ const CreateArticle: React.FC = () => {
             />
           </div>
           <Button type="submit" variant="default">
-            Create Article
+            Update Article
           </Button>
         </form>
       </div>
@@ -130,4 +159,4 @@ const CreateArticle: React.FC = () => {
   );
 };
 
-export default CreateArticle;
+export default EditArticle;

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ContactUsController;
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ImagesGalleryController;
 use App\Http\Controllers\CategoryArticleController;
 use App\Models\ContactUs;
@@ -48,6 +49,16 @@ Route::prefix('/services')->group(function () {
 });
 
 Route::prefix('/admin')->middleware(['auth', 'verified'])->group(function () {
+    Route::prefix('articles')->group(function () {
+        Route::get('/', [ArticleController::class, 'index'])->name('articles.index');
+        Route::get('/create', [ArticleController::class, 'create'])->name('articles.create');
+        Route::post('/', [ArticleController::class, 'store'])->name('articles.store'); // Fixed
+        Route::get('/{article}', [ArticleController::class, 'show'])->name('articles.show'); // Added
+        Route::get('/edit/{article}', [ArticleController::class, 'edit'])->name('articles.edit');
+        Route::put('/{article}', [ArticleController::class, 'update'])->name('articles.update'); // Fixed
+        Route::delete('/{article}', [ArticleController::class, 'destroy'])->name('articles.destroy');
+    });
+
     Route::prefix('category_article')->group(function () {
         Route::get('/', [CategoryArticleController::class, 'index'])->name('categories.index');
         Route::get('/create', [CategoryArticleController::class, 'create'])->name('categories.create');
@@ -60,17 +71,9 @@ Route::prefix('/admin')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/articles', function () {
         return Inertia::render('admin/articles');
     });
-    Route::get('/articles/create', function () {
-        return Inertia::render('admin/articles/create');
-    });
 
     Route::get('/', [ContactUsController::class, "show"]);
-    Route::get('/articles', function () {
-        return Inertia::render('admin/articles');
-    });
-    Route::get('/articles/create', function () {
-        return Inertia::render('admin/articles/create');
-    });
+
     Route::prefix('/contact_us')->group(function () {
         Route::get('/', [ContactUsController::class, 'index'])->name('contactUs.index');
         Route::get('/edit/{contactUs}', [ContactUsController::class, 'edit'])->name('contactUs.edit');
