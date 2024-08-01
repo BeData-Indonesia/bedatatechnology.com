@@ -6,7 +6,6 @@ import AdminLayout from "resources/js/Layouts/AdminLayout";
 interface Props {
     imagesGallery: {
         id: number;
-        title: string;
         filename: string;
         path: string;
     };
@@ -15,31 +14,32 @@ interface Props {
 
 const EditImageGallery: React.FC<Props> = ({ imagesGallery, errors }) => {
     const [image, setImage] = useState<File | null>(null);
-    const [title, setTitle] = useState<string>(imagesGallery.title);
     const [successMessage, setSuccessMessage] = useState("");
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const formData = new FormData();
-        formData.append("title", title);
         if (image) {
             formData.append("image", image);
+            console.log("Form data before submit:", formData.get("image")); // Debugging log
+            Inertia.put(
+                `/admin/images_gallery/edit/${imagesGallery.id}`,
+                formData,
+                {
+                    forceFormData: true,
+                    onSuccess: () => {
+                        setSuccessMessage("Image updated successfully");
+                        setTimeout(() => setSuccessMessage(""), 3000);
+                        Inertia.visit("/admin/images_gallery");
+                    },
+                    onError: (errors) => {
+                        console.log(errors);
+                    },
+                }
+            );
+        } else {
+            console.log("No image selected"); // Debugging log
         }
-        Inertia.put(
-            `/admin/images_gallery/edit/${imagesGallery.id}`,
-            formData,
-            {
-                forceFormData: true,
-                onSuccess: () => {
-                    setSuccessMessage("Image updated successfully");
-                    setTimeout(() => setSuccessMessage(""), 3000);
-                    Inertia.visit("/admin/images_gallery");
-                },
-                onError: (errors) => {
-                    console.log(errors);
-                },
-            }
-        );
     };
 
     return (
@@ -54,21 +54,8 @@ const EditImageGallery: React.FC<Props> = ({ imagesGallery, errors }) => {
                 className="mt-4"
             >
                 <div className="mb-4">
-                    <label htmlFor="title" className="block text-gray-700">
-                        Title
-                    </label>
-                    <input
-                        type="text"
-                        id="title"
-                        className="form-input mt-1 block w-full"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                    />
-                    {errors.title && (
-                        <div className="text-red-500">{errors.title}</div>
-                    )}
                     <label className="block text-gray-700 text-sm font-bold mb-2">
-                        Select Image
+                        Select Image:
                     </label>
                     <input
                         type="file"

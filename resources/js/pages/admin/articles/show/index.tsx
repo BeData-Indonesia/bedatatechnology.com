@@ -14,7 +14,7 @@ interface Article {
 
 const ShowArticle: React.FC = () => {
   const pageProps = usePage().props;
-  
+
   const article = (pageProps.article as Article | undefined) || null;
 
   if (!article) {
@@ -25,12 +25,17 @@ const ShowArticle: React.FC = () => {
     <AdminLayout>
       <div className="max-w-2xl mx-auto">
         <h1 className="text-3xl font-bold mb-4">{article.title}</h1>
-        <img src={article.image_url} alt={article.title} className="mb-4" />
+        {article.image_url && (
+          <img src={`/storage/${article.image_url}`} alt={article.title} className="mb-4" />
+        )}
         <div className="mb-4">
           <p><strong>Excerpt:</strong> {article.excerpt}</p>
         </div>
         <div className="mb-4">
           <p><strong>Description:</strong> {article.description}</p>
+        </div>
+        <div className="mb-4">
+          <p><strong>Excerpt:</strong> {article.excerpt}</p>
         </div>
         <div className="mb-4">
           <div dangerouslySetInnerHTML={{ __html: article.content }} />

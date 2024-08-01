@@ -13,16 +13,24 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { usePage } from "@inertiajs/inertia-react";
+import { Page } from "@inertiajs/inertia";
+import { Dropdown } from "resources/js/components/molecules/Dropdown/Dropdown";
+
+interface Image {
+  id: number;
+  filename: string;
+  path: string;
+}
 
 interface Article {
-    id: number;
-    title: string;
-    excerpt: string;
-    description: string;
-    image_url: string;
-    small_image_url: string;
-    content: string;
-  }
+  id: number;
+  title: string;
+  excerpt: string;
+  description: string;
+  image_url: string;
+  small_image_url: string;
+  content: string;
+}
 
 interface FormData {
   title: string;
@@ -30,6 +38,13 @@ interface FormData {
   description: string;
   image_url?: string | null;
   small_image_url?: string | null;
+  content: string;
+}
+
+interface InertiaPageProps {
+  article: Article;
+  imagesGallery: Image[];
+  [key: string]: any;
 }
 
 const validationSchema = yup.object().shape({
@@ -38,21 +53,20 @@ const validationSchema = yup.object().shape({
   description: yup.string().required("Description is required").max(64, "Description must be at most 64 characters"),
   image_url: yup.string().max(64, "Image URL must be at most 64 characters").nullable(),
   small_image_url: yup.string().max(64, "Small Image URL must be at most 64 characters").nullable(),
+  content: yup.string().required("Content is required"),
 });
 
 const EditArticle: React.FC = () => {
-    const pageProps = usePage().props;
-  
-    const article = (pageProps.article as Article | undefined) || null;
-  
-    if (!article) {
-      return <div>Loading...</div>;
-    }
-  
+  const { props } = usePage<Page<InertiaPageProps>>();
+  const article = props.article;
+  const imagesGallery = props.imagesGallery ?? [];
+
   const blocksFromHTML = convertFromHTML(article.content || "");
   const initialContentState = ContentState.createFromBlockArray(blocksFromHTML.contentBlocks, blocksFromHTML.entityMap);
 
   const [editorState, setEditorState] = useState(EditorState.createWithContent(initialContentState));
+  const [selectedImage, setSelectedImage] = useState(article.image_url);
+
   const {
     register,
     handleSubmit,
@@ -65,6 +79,7 @@ const EditArticle: React.FC = () => {
       description: article.description,
       image_url: article.image_url,
       small_image_url: article.small_image_url,
+      content: article.content,
     }
   });
 
@@ -73,6 +88,7 @@ const EditArticle: React.FC = () => {
     const formData = {
       ...data,
       content,
+      image_url: selectedImage,
     };
     Inertia.put(`/admin/articles/${article.id}`, formData, {
       onSuccess: () => alert("Article updated successfully"),
@@ -140,6 +156,25 @@ const EditArticle: React.FC = () => {
             />
           </div>
           <div className="mb-4">
+            <Dropdown
+              label="Select Image"
+              name="image"
+              error={errors.image_url}
+              register={register("image_url")}
+              value={selectedImage || ""}
+              onChange={(e) => setSelectedImage(e.target.value)}
+            >
+              <option value="" disabled>
+                Select an image
+              </option>
+              {imagesGallery.map((image) => (
+                <option key={image.id} value={image.path}>
+                  {image.filename}
+                </option>
+              ))}
+            </Dropdown>
+          </div>
+          <div className="mb-4">
             <label className="block text-sm font-medium mb-1" htmlFor="content">
               Content
             </label>
@@ -150,6 +185,15 @@ const EditArticle: React.FC = () => {
               editorClassName="demo-editor"
             />
           </div>
+          {selectedImage && (
+            <div className="mb-4">
+              <img
+                src={`/storage/${selectedImage}`}
+                alt="Selected"
+                className="w-64 h-64 object-cover"
+              />
+            </div>
+          )}
           <Button type="submit" variant="default">
             Update Article
           </Button>
@@ -160,3 +204,4 @@ const EditArticle: React.FC = () => {
 };
 
 export default EditArticle;
+
