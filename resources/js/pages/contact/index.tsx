@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import Button from "../../components/atoms/Button/Button";
 import { yupResolver } from "@hookform/resolvers/yup";
-import {Input} from "../../components/molecules/Input/Input";
+import { Input, TextArea } from "../../components/molecules/Input/Input";
 import IllustrationContactUs from "../../assets/ILUSTRATION.png";
 import IllustrationContactUsSmall from "../../assets/ILUSTRATION-small.png";
 import Modal from "../../components/organism/Modal/Modal";
@@ -69,28 +69,28 @@ export default function ContactUs(props) {
                                 <Input
                                     error={errors.email}
                                     label="Email"
-                                    register={register('email')}
+                                    register={register("email")}
                                     type="email"
                                     name="email"
                                 />
                                 <Input
                                     error={errors.name}
                                     label="Name"
-                                    register={register('name')}
+                                    register={register("name")}
                                     type="text"
                                     name="name"
                                 />
                                 <Input
                                     error={errors.company}
                                     label="Company"
-                                    register={register('company')}
+                                    register={register("company")}
                                     type="text"
                                     name="company"
                                 />
                                 <Input
                                     error={errors.inquiry}
                                     label="Inquiry"
-                                    register={register('inquiry')}
+                                    register={register("inquiry")}
                                     type="text-area"
                                     name="inquiry"
                                 />

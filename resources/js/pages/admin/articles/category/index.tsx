@@ -12,13 +12,13 @@ import htmlToDraft from "html-to-draftjs";
 import { parseDate } from "resources/js/lib/utils";
 import { Inertia } from "@inertiajs/inertia";
 import { InertiaLink, usePage } from "@inertiajs/inertia-react";
-import {Input} from "resources/js/components/molecules/Input/Input";
+import { Input } from "resources/js/components/molecules/Input/Input";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 import Pagination from "resources/js/components/molecules/Pagination/Pagination";
-// import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 interface Category {
   id: number;
@@ -27,7 +27,7 @@ interface Category {
 
 const CategoryIndex: React.FC = () => {
   const { categories } = usePage().props as { categories?: Category[] };
-
+  
   const searchParams = new URLSearchParams(window.location.search);
   const initialPage = parseInt(searchParams.get('page') || '1', 10);
 

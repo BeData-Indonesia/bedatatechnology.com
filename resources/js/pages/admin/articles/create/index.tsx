@@ -8,10 +8,19 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import Button from "resources/js/components/atoms/Button/Button";
 import draftToHtml from "draftjs-to-html";
 import { Inertia } from "@inertiajs/inertia";
-import { Input, TextArea } from "resources/js/components/molecules/Input/Input";
+import { Input } from "resources/js/components/molecules/Input/Input";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { usePage } from "@inertiajs/inertia-react";
+import { Page } from "@inertiajs/inertia"; //
+import { Dropdown } from "resources/js/components/molecules/Dropdown/Dropdown";
+
+interface Image {
+  id: number;
+  filename: string;
+  path: string;
+}
 
 interface FormData {
   title: string;
@@ -19,6 +28,12 @@ interface FormData {
   description: string;
   image_url?: string | null;
   small_image_url?: string | null;
+  content: string;
+}
+
+interface InertiaPageProps {
+  imagesGallery: Image[];
+  [key: string]: any;
 }
 
 const validationSchema = yup.object().shape({
@@ -27,16 +42,30 @@ const validationSchema = yup.object().shape({
   description: yup.string().required("Description is required").max(64, "Description must be at most 64 characters"),
   image_url: yup.string().max(64, "Image URL must be at most 64 characters").nullable(),
   small_image_url: yup.string().max(64, "Small Image URL must be at most 64 characters").nullable(),
+  content: yup.string().required("Content is required"),
 });
 
 const CreateArticle: React.FC = () => {
+  const { props } = usePage<Page<InertiaPageProps>>();
+  const imagesGallery = props.imagesGallery ?? [];
+
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(validationSchema),
+    defaultValues: {
+      title: '',
+      excerpt: '',
+      description: '',
+      image_url: '',
+      small_image_url: '',
+      content: '',
+    }
   });
 
   const onSubmit = (data: FormData) => {
@@ -44,10 +73,20 @@ const CreateArticle: React.FC = () => {
     const formData = {
       ...data,
       content,
+      image_url: selectedImage,
     };
-    Inertia.post("/admin/articles", formData, {
-      onSuccess: () => alert("Article created successfully"),
-      onError: (formErrors) => console.error("Form submission failed", formErrors),
+
+    console.log('Submitting data:', formData);
+
+    Inertia.post('/admin/articles', formData, {
+      onSuccess: () => {
+        alert("Article created successfully");
+        console.log("Success");
+      },
+      onError: (formErrors) => {
+        console.error("Form submission failed", formErrors);
+        alert("Failed to create article. Check console for errors.");
+      },
     });
   };
 
@@ -111,6 +150,23 @@ const CreateArticle: React.FC = () => {
             />
           </div>
           <div className="mb-4">
+            <Dropdown
+              label="Select Image"
+              name="image"
+              error={errors.image_url}
+              register={register("image_url")}
+              value={selectedImage || ""}
+              onChange={(e) => setSelectedImage(e.target.value)} // Update selectedImage state
+            >
+              <option value="" disabled>Select an image</option>
+              {imagesGallery.map((image) => (
+                <option key={image.id} value={image.path}>
+                  {image.filename}
+                </option>
+              ))}
+            </Dropdown>
+          </div>
+          <div className="mb-4">
             <label className="block text-sm font-medium mb-1" htmlFor="content">
               Content
             </label>
@@ -121,6 +177,15 @@ const CreateArticle: React.FC = () => {
               editorClassName="demo-editor"
             />
           </div>
+          {selectedImage && (
+            <div className="mb-4">
+              <img
+                src={`/storage/${selectedImage}`}
+                alt="Selected"
+                className="w-64 h-64 object-cover"
+              />
+            </div>
+          )}
           <Button type="submit" variant="default">
             Create Article
           </Button>

@@ -5,14 +5,14 @@ import { cn } from "../../../lib/utils";
 import * as React from "react";
 
 interface IInput extends Omit<InputHTMLAttributes<HTMLInputElement>, "name"> {
-  register: UseFormRegisterReturn;
+  register: UseFormRegisterReturn<any>;
   error?: FieldError;
   label: string;
   name: string;
 }
 
 interface ITextarea extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "name"> {
-  register: UseFormRegisterReturn;
+  register: UseFormRegisterReturn<any>;
   error?: FieldError;
   label: string;
   name: string;

@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\CategoryArticle;
+use App\Models\ImagesGallery;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Log;
 
 class ArticleController extends Controller
 {
@@ -14,9 +17,20 @@ class ArticleController extends Controller
         return Inertia::render('admin/articles', ['articles' => $articles]);
     }
 
+    // public function create()
+    // {
+    //     return Inertia::render('admin/articles/create');
+    // }
+
     public function create()
     {
-        return Inertia::render('admin/articles/create');
+        $categories = CategoryArticle::all();
+        $imagesGallery = ImagesGallery::all();
+
+        return Inertia::render('admin/articles/create', [
+            'categories' => $categories,
+            'imagesGallery' => $imagesGallery,
+        ]);
     }
 
     public function store(Request $request)
@@ -30,7 +44,7 @@ class ArticleController extends Controller
             'content' => 'required|string',
         ]);
 
-        Article::create($validatedData);
+        $article = Article::create($validatedData);
 
         return redirect()->route('articles.index')->with('success', 'Article created successfully.');
     }

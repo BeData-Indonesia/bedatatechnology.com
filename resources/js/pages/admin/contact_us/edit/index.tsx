@@ -51,7 +51,7 @@ const EditContactUs: React.FC<Props> = ({ contactUs, errors }) => {
             <form onSubmit={handleSubmit}>
                 <div className="mb-4">
                     <label htmlFor="email" className="block text-gray-700">
-                        Email
+                        Email:
                     </label>
                     <input
                         type="email"
@@ -66,7 +66,7 @@ const EditContactUs: React.FC<Props> = ({ contactUs, errors }) => {
                 </div>
                 <div className="mb-4">
                     <label htmlFor="name" className="block text-gray-700">
-                        Name
+                        Name:
                     </label>
                     <input
                         type="text"
@@ -81,7 +81,7 @@ const EditContactUs: React.FC<Props> = ({ contactUs, errors }) => {
                 </div>
                 <div className="mb-4">
                     <label htmlFor="company" className="block text-gray-700">
-                        Company
+                        Company:
                     </label>
                     <input
                         type="text"
@@ -96,7 +96,7 @@ const EditContactUs: React.FC<Props> = ({ contactUs, errors }) => {
                 </div>
                 <div className="mb-4">
                     <label htmlFor="inquiry" className="block text-gray-700">
-                        Inquiry
+                        Inquiry:
                     </label>
                     <textarea
                         id="inquiry"
