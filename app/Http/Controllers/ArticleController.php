@@ -32,7 +32,7 @@ class ArticleController extends Controller
 
         Article::create($validatedData);
 
-        return redirect()->route('articles.index')->with('success', 'Article created successfully.');
+        return redirect('/admin/articles/')->with('success', 'Article created successfully.');
     }
 
     public function show(Article $article)
