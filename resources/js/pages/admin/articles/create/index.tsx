@@ -55,6 +55,7 @@ const CreateArticle: React.FC = () => {
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(validationSchema),
@@ -68,15 +69,15 @@ const CreateArticle: React.FC = () => {
     }
   });
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     const content = draftToHtml(convertToRaw(editorState.getCurrentContent()));
+    const data = getValues()
     const formData = {
       ...data,
       content,
       image_url: selectedImage,
     };
-
-    console.log('Submitting data:', formData);
 
     Inertia.post('/admin/articles', formData, {
       onSuccess: () => {
@@ -95,10 +96,10 @@ const CreateArticle: React.FC = () => {
   };
 
   return (
-    <AdminLayout>
+    // <AdminLayout>
       <div>
         <Topic>CREATE ARTICLE</Topic>
-        <form onSubmit={handleSubmit(onSubmit)} className="max-w-2xl mx-auto">
+        <form onSubmit={onSubmit} className="max-w-2xl mx-auto">
           <div className="mb-4">
             <Input
               label="Title"
@@ -191,7 +192,7 @@ const CreateArticle: React.FC = () => {
           </Button>
         </form>
       </div>
-    </AdminLayout>
+    // </AdminLayout>
   );
 };
 
