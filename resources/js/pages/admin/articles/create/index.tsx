@@ -10,84 +10,59 @@ import draftToHtml from "draftjs-to-html";
 import { Inertia } from "@inertiajs/inertia";
 import { Input } from "resources/js/components/molecules/Input/Input";
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import { usePage } from "@inertiajs/inertia-react";
-import { Page } from "@inertiajs/inertia"; //
-import { Dropdown } from "resources/js/components/molecules/Dropdown/Dropdown";
-
-interface Image {
-  id: number;
-  filename: string;
-  path: string;
-}
+import { Page } from "@inertiajs/inertia";
+import Select, { MultiValue, ActionMeta } from 'react-select';
 
 interface FormData {
   title: string;
   excerpt: string;
   description: string;
-  image_url?: string | null;
-  small_image_url?: string | null;
-  content: string;
+  image_url: string | null;
+  small_image_url: string | null;
+  categories: string[];
 }
 
 interface InertiaPageProps {
-  imagesGallery: Image[];
+  categories: { id: number; name: string }[];
   [key: string]: any;
 }
 
-const validationSchema = yup.object().shape({
-  title: yup.string().required("Title is required").max(64, "Title must be at most 64 characters"),
-  excerpt: yup.string().required("Excerpt is required").max(64, "Excerpt must be at most 64 characters"),
-  description: yup.string().required("Description is required").max(64, "Description must be at most 64 characters"),
-  image_url: yup.string().max(64, "Image URL must be at most 64 characters").nullable(),
-  small_image_url: yup.string().max(64, "Small Image URL must be at most 64 characters").nullable(),
-  content: yup.string().required("Content is required"),
-});
-
 const CreateArticle: React.FC = () => {
-  const { props } = usePage<Page<InertiaPageProps>>();
-  const imagesGallery = props.imagesGallery ?? [];
+  const { categories } = usePage<Page<InertiaPageProps>>().props;
+
+  const categoryOptions = categories.map(category => ({
+    value: category.id.toString(),
+    label: category.name,
+  }));
 
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedCategories, setSelectedCategories] = useState<{ value: string, label: string }[]>([]);
 
   const {
     register,
     handleSubmit,
-    getValues,
     formState: { errors },
   } = useForm<FormData>({
-    resolver: yupResolver(validationSchema),
     defaultValues: {
-      title: '',
-      excerpt: '',
-      description: '',
-      image_url: '',
-      small_image_url: '',
-      content: '',
-    }
+      image_url: null,
+      small_image_url: null,
+      categories: [],
+    },
   });
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const onSubmit = (data: FormData) => {
     const content = draftToHtml(convertToRaw(editorState.getCurrentContent()));
-    const data = getValues()
+    const categoryIds = selectedCategories.map(category => category.value);
     const formData = {
       ...data,
       content,
-      image_url: selectedImage,
+      categories: categoryIds,
     };
 
-    Inertia.post('/admin/articles', formData, {
-      onSuccess: () => {
-        alert("Article created successfully");
-        console.log("Success");
-      },
-      onError: (formErrors) => {
-        console.error("Form submission failed", formErrors);
-        alert("Failed to create article. Check console for errors.");
-      },
+    Inertia.post("/admin/articles", formData, {
+      onSuccess: () => alert("Article created successfully"),
+      onError: (formErrors) => console.error("Form submission failed", formErrors),
     });
   };
 
@@ -95,11 +70,18 @@ const CreateArticle: React.FC = () => {
     setEditorState(state);
   };
 
+  const handleCategoryChange = (
+    newValue: MultiValue<{ value: string; label: string }>,
+    actionMeta: ActionMeta<{ value: string; label: string }>
+  ) => {
+    setSelectedCategories(newValue as { value: string; label: string }[]);
+  };
+
   return (
-    // <AdminLayout>
+    <AdminLayout>
       <div>
-        <Topic>CREATE ARTICLE</Topic>
-        <form onSubmit={onSubmit} className="max-w-2xl mx-auto">
+        <Topic><div className="text-xl font-bold">Create Article</div></Topic>
+        <form onSubmit={handleSubmit(onSubmit)} className="max-w-2xl mx-auto">
           <div className="mb-4">
             <Input
               label="Title"
@@ -107,7 +89,10 @@ const CreateArticle: React.FC = () => {
               type="text"
               placeholder="Title"
               error={errors.title}
-              register={register("title")}
+              register={register("title", { 
+                required: "Title is required",
+                maxLength: { value: 64, message: "Title must be at most 64 characters" },
+              })}
             />
           </div>
           <div className="mb-4">
@@ -117,7 +102,10 @@ const CreateArticle: React.FC = () => {
               type="text"
               placeholder="Excerpt"
               error={errors.excerpt}
-              register={register("excerpt")}
+              register={register("excerpt", {
+                required: "Excerpt is required",
+                maxLength: { value: 64, message: "Excerpt must be at most 64 characters" },
+              })}
             />
           </div>
           <div className="mb-4">
@@ -127,7 +115,10 @@ const CreateArticle: React.FC = () => {
               type="text"
               placeholder="Description"
               error={errors.description}
-              register={register("description")}
+              register={register("description", {
+                required: "Description is required",
+                maxLength: { value: 64, message: "Description must be at most 64 characters" },
+              })}
             />
           </div>
           <div className="mb-4">
@@ -137,7 +128,9 @@ const CreateArticle: React.FC = () => {
               type="text"
               placeholder="Image URL"
               error={errors.image_url}
-              register={register("image_url")}
+              register={register("image_url", {
+                maxLength: { value: 64, message: "Image URL must be at most 64 characters" },
+              })}
             />
           </div>
           <div className="mb-4">
@@ -147,25 +140,23 @@ const CreateArticle: React.FC = () => {
               type="text"
               placeholder="Small Image URL"
               error={errors.small_image_url}
-              register={register("small_image_url")}
+              register={register("small_image_url", {
+                maxLength: { value: 64, message: "Small Image URL must be at most 64 characters" },
+              })}
             />
           </div>
           <div className="mb-4">
-            <Dropdown
-              label="Select Image"
-              name="image"
-              error={errors.image_url}
-              register={register("image_url")}
-              value={selectedImage || ""}
-              onChange={(e) => setSelectedImage(e.target.value)} // Update selectedImage state
-            >
-              <option value="" disabled>Select an image</option>
-              {imagesGallery.map((image) => (
-                <option key={image.id} value={image.path}>
-                  {image.filename}
-                </option>
-              ))}
-            </Dropdown>
+            <label className="block text-sm font-medium mb-1" htmlFor="categories">
+              Categories
+            </label>
+            <Select
+              isMulti
+              options={categoryOptions}
+              value={selectedCategories}
+              onChange={handleCategoryChange}
+              classNamePrefix="react-select"
+            />
+            {errors.categories && <p className="text-red-500 text-xs mt-1">{errors.categories.message}</p>}
           </div>
           <div className="mb-4">
             <label className="block text-sm font-medium mb-1" htmlFor="content">
@@ -178,21 +169,12 @@ const CreateArticle: React.FC = () => {
               editorClassName="demo-editor"
             />
           </div>
-          {selectedImage && (
-            <div className="mb-4">
-              <img
-                src={`/storage/${selectedImage}`}
-                alt="Selected"
-                className="w-64 h-64 object-cover"
-              />
-            </div>
-          )}
-          <Button type="submit" variant="default">
+          <button type="submit" className="btn btn-primary mr-2">
             Create Article
-          </Button>
+          </button>
         </form>
       </div>
-    // </AdminLayout>
+    </AdminLayout>
   );
 };
 

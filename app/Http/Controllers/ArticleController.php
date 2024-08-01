@@ -17,11 +17,6 @@ class ArticleController extends Controller
         return Inertia::render('admin/articles', ['articles' => $articles]);
     }
 
-    // public function create()
-    // {
-    //     return Inertia::render('admin/articles/create');
-    // }
-
     public function create()
     {
         $categories = CategoryArticle::all();
@@ -42,22 +37,36 @@ class ArticleController extends Controller
             'image_url' => 'nullable|string|max:64',
             'small_image_url' => 'nullable|string|max:64',
             'content' => 'required|string',
+            'categories' => 'required|array',
+            'categories.*' => 'exists:category_articles,id',
         ]);
 
         $article = Article::create($validatedData);
+
+        $article->categories()->attach($request->input('categories'));
 
         return redirect('/admin/articles/')->with('success', 'Article created successfully.');
     }
 
     public function show(Article $article)
     {
-        return Inertia::render('admin/articles/show', ['article' => $article->toArray()]);
+        $article->load('categories');
+
+        return Inertia::render('admin/articles/show', [
+            'article' => $article,
+        ]);
     }
 
     public function edit(Article $article)
     {
-        return Inertia::render('admin/articles/edit', ['article' => $article]);
+        $categories = CategoryArticle::all();
+
+        return Inertia::render('admin/articles/edit', [
+            'article' => $article,
+            'categories' => $categories,
+        ]);
     }
+
 
     public function update(Request $request, Article $article)
     {

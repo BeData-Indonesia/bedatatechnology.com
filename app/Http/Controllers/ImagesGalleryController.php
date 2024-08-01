@@ -28,7 +28,6 @@ class ImagesGalleryController extends Controller
         ]);
     }
 
-
     public function create()
     {
         return Inertia::render('admin/images_gallery/create');

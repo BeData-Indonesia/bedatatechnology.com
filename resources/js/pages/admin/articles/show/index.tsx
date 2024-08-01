@@ -1,52 +1,90 @@
-import { usePage } from "@inertiajs/inertia-react";
 import AdminLayout from "resources/js/Layouts/AdminLayout";
-import { InertiaLink } from "@inertiajs/inertia-react";
+import Topic from "resources/js/components/molecules/Topic/Topic";
+import { usePage } from "@inertiajs/inertia-react";
+import { Page } from "@inertiajs/inertia";
 
 interface Article {
-  id: number;
   title: string;
   excerpt: string;
   description: string;
   image_url: string;
   small_image_url: string;
   content: string;
+  categories: { id: number; name: string }[];
+}
+
+interface InertiaPageProps {
+  article: Article;
+  [key: string]: any; 
 }
 
 const ShowArticle: React.FC = () => {
-  const pageProps = usePage().props;
-
-  const article = (pageProps.article as Article | undefined) || null;
+  const { article } = usePage<Page<InertiaPageProps>>().props;
 
   if (!article) {
     return <div>Loading...</div>;
   }
 
+  const baseImageUrl = "/storage/";
+
+  const fullImageUrl = article.image_url ? `${baseImageUrl}${article.image_url}` : null;
+  const fullSmallImageUrl = article.small_image_url ? `${baseImageUrl}${article.small_image_url}` : null;
+
   return (
     <AdminLayout>
       <div className="max-w-2xl mx-auto">
-        <h1 className="text-3xl font-bold mb-4">{article.title}</h1>
-        {article.image_url && (
-          <img src={`/storage/${article.image_url}`} alt={article.title} className="mb-4" />
-        )}
+        <Topic><div className="text-xl font-bold">{article.title}</div></Topic>
+
         <div className="mb-4">
-          <p><strong>Excerpt:</strong> {article.excerpt}</p>
+          <p>
+            <strong>Excerpt:</strong> {article.excerpt}
+          </p>
         </div>
+
         <div className="mb-4">
-          <p><strong>Description:</strong> {article.description}</p>
+          <p>
+            <strong>Description:</strong> {article.description}
+          </p>
         </div>
+
         <div className="mb-4">
-          <p><strong>Excerpt:</strong> {article.excerpt}</p>
+          <strong>Categories:</strong>
+          <ul className="list-disc list-inside">
+            {article.categories.map((category) => (
+              <li key={category.id}>{category.name}</li>
+            ))}
+          </ul>
         </div>
+
         <div className="mb-4">
-          <div dangerouslySetInnerHTML={{ __html: article.content }} />
+          <strong>Main Image:</strong>
+          {fullImageUrl && (
+            <img src={fullImageUrl} alt={article.title} className="mb-4 w-full h-auto" />
+          )}
         </div>
-        <InertiaLink href="/admin/articles" className="btn btn-primary">
-          Back to Articles
-        </InertiaLink>
+        
+        <div className="mb-4">
+          <strong>Small Image:</strong>
+          {fullSmallImageUrl && (
+            <img
+              src={fullSmallImageUrl}
+              alt={`${article.title} Small`}
+              className="mb-4 w-full h-auto"
+            />
+          )}
+        </div>
+
+        <div className="mb-4">
+          <strong>Content:</strong>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: article.content,
+            }}
+          />
+        </div>
       </div>
     </AdminLayout>
   );
 };
 
 export default ShowArticle;
-
