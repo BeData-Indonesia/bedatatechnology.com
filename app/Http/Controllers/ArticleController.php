@@ -68,18 +68,39 @@ class ArticleController extends Controller
     }
 
 
-    public function update(Request $request, Article $article)
+    // public function update(Request $request, Article $article)
+    // {
+    //     $validatedData = $request->validate([
+    //         'title' => 'required|string|max:64',
+    //         'excerpt' => 'required|string|max:64',
+    //         'description' => 'required|string|max:64',
+    //         'image_url' => 'nullable|string|max:64',
+    //         'small_image_url' => 'nullable|string|max:64',
+    //         'content' => 'required|string',
+    //     ]);
+
+    //     $article->update($validatedData);
+
+    //     return redirect()->route('articles.index')->with('success', 'Article updated successfully.');
+    // }
+
+    public function update(Request $request, $id)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'title' => 'required|string|max:64',
             'excerpt' => 'required|string|max:64',
             'description' => 'required|string|max:64',
             'image_url' => 'nullable|string|max:64',
             'small_image_url' => 'nullable|string|max:64',
-            'content' => 'required|string',
+            'categories' => 'array',
+            'categories.*' => 'exists:category_articles,id',
         ]);
 
-        $article->update($validatedData);
+        $article = Article::findOrFail($id);
+        $article->update($request->only(['title', 'excerpt', 'description', 'image_url', 'small_image_url', 'content']));
+
+        // Sync categories
+        $article->categories()->sync($request->input('categories', []));
 
         return redirect()->route('articles.index')->with('success', 'Article updated successfully.');
     }
