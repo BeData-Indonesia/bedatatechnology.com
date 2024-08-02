@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Article;
 use App\Models\CategoryArticle;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -17,7 +18,8 @@ class CategoryArticleController extends Controller
 
     public function create()
     {
-        return Inertia::render('admin/articles/category/create');
+        $categories = CategoryArticle::all();
+        return Inertia::render('admin/articles/category/create', ['categories' => $categories]);
     }
 
     public function store(Request $request)
@@ -32,6 +34,7 @@ class CategoryArticleController extends Controller
 
     public function edit(CategoryArticle $category)
     {
+        $categories = CategoryArticle::all();
         return Inertia::render('admin/articles/category/edit', ['category' => $category]);
     }
 

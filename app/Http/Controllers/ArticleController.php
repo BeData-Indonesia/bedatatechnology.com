@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\CategoryArticle;
+use App\Models\ImagesGallery;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -16,7 +18,13 @@ class ArticleController extends Controller
 
     public function create()
     {
-        return Inertia::render('admin/articles/create');
+        $categories = CategoryArticle::all();
+        $imagesGallery = ImagesGallery::all();
+
+        return Inertia::render('admin/articles/create', [
+            'categories' => $categories,
+            'imagesGallery' => $imagesGallery,
+        ]);
     }
 
     public function store(Request $request)
@@ -28,35 +36,52 @@ class ArticleController extends Controller
             'image_url' => 'nullable|string|max:64',
             'small_image_url' => 'nullable|string|max:64',
             'content' => 'required|string',
+            'categories' => 'required|array',
+            'categories.*' => 'exists:category_articles,id',
         ]);
 
-        Article::create($validatedData);
+        $article = Article::create($validatedData);
 
-        return redirect()->route('articles.index')->with('success', 'Article created successfully.');
+        $article->categories()->attach($request->input('categories'));
+
+        return redirect('/admin/articles/')->with('success', 'Article created successfully.');
     }
 
     public function show(Article $article)
     {
-        return Inertia::render('admin/articles/show', ['article' => $article->toArray()]);
+        $article->load('categories');
+
+        return Inertia::render('admin/articles/show', [
+            'article' => $article,
+        ]);
     }
 
     public function edit(Article $article)
     {
-        return Inertia::render('admin/articles/edit', ['article' => $article]);
+        $categories = CategoryArticle::all();
+
+        return Inertia::render('admin/articles/edit', [
+            'article' => $article,
+            'categories' => $categories,
+        ]);
     }
 
-    public function update(Request $request, Article $article)
+    public function update(Request $request, $id)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'title' => 'required|string|max:64',
             'excerpt' => 'required|string|max:64',
             'description' => 'required|string|max:64',
             'image_url' => 'nullable|string|max:64',
             'small_image_url' => 'nullable|string|max:64',
-            'content' => 'required|string',
+            'categories' => 'array',
+            'categories.*' => 'exists:category_articles,id',
         ]);
 
-        $article->update($validatedData);
+        $article = Article::findOrFail($id);
+        $article->update($request->only(['title', 'excerpt', 'description', 'image_url', 'small_image_url', 'content']));
+
+        $article->categories()->sync($request->input('categories', []));
 
         return redirect()->route('articles.index')->with('success', 'Article updated successfully.');
     }

@@ -2,13 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
         'title',
         'excerpt',
@@ -20,6 +17,6 @@ class Article extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(CategoryArticle::class);
+        return $this->belongsToMany(CategoryArticle::class, 'article_category_article');
     }
 }

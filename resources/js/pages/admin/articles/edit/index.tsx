@@ -1,79 +1,83 @@
 import AdminLayout from "resources/js/Layouts/AdminLayout";
 import Topic from "resources/js/components/molecules/Topic/Topic";
-import { EditorState, convertToRaw, convertFromHTML, ContentState } from "draft-js";
+import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 import "draft-js/dist/Draft.css";
 import { Editor } from "react-draft-wysiwyg";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import Button from "resources/js/components/atoms/Button/Button";
 import draftToHtml from "draftjs-to-html";
 import { Inertia } from "@inertiajs/inertia";
 import { Input } from "resources/js/components/molecules/Input/Input";
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import { usePage } from "@inertiajs/inertia-react";
-
-interface Article {
-    id: number;
-    title: string;
-    excerpt: string;
-    description: string;
-    image_url: string;
-    small_image_url: string;
-    content: string;
-  }
+import { Page } from "@inertiajs/inertia";
+import Select, { MultiValue, ActionMeta } from 'react-select';
 
 interface FormData {
+  id: number;
   title: string;
   excerpt: string;
   description: string;
-  image_url?: string | null;
-  small_image_url?: string | null;
+  image_url: string | null;
+  small_image_url: string | null;
+  categories: string[];
 }
 
-const validationSchema = yup.object().shape({
-  title: yup.string().required("Title is required").max(64, "Title must be at most 64 characters"),
-  excerpt: yup.string().required("Excerpt is required").max(64, "Excerpt must be at most 64 characters"),
-  description: yup.string().required("Description is required").max(64, "Description must be at most 64 characters"),
-  image_url: yup.string().max(64, "Image URL must be at most 64 characters").nullable(),
-  small_image_url: yup.string().max(64, "Small Image URL must be at most 64 characters").nullable(),
-});
+interface InertiaPageProps {
+  categories: { id: number; name: string }[];
+  article: FormData;
+  [key: string]: any;
+}
 
 const EditArticle: React.FC = () => {
-    const pageProps = usePage().props;
-  
-    const article = (pageProps.article as Article | undefined) || null;
-  
-    if (!article) {
-      return <div>Loading...</div>;
-    }
-  
-  const blocksFromHTML = convertFromHTML(article.content || "");
-  const initialContentState = ContentState.createFromBlockArray(blocksFromHTML.contentBlocks, blocksFromHTML.entityMap);
+  const { categories = [], article } = usePage<Page<InertiaPageProps>>().props;
 
-  const [editorState, setEditorState] = useState(EditorState.createWithContent(initialContentState));
+  if (!categories) {
+    return <div>Loading...</div>;
+  }
+
+  const categoryOptions = categories.map(category => ({
+    value: category.id.toString(),
+    label: category.name,
+  }));
+
+  const [editorState, setEditorState] = useState(() => {
+    try {
+      return EditorState.createWithContent(convertFromRaw(JSON.parse(article.description || "{}")));
+    } catch (error) {
+      console.error("Error parsing article description:", error);
+      return EditorState.createEmpty();
+    }
+  });
+
+  const [selectedCategories, setSelectedCategories] = useState<{ value: string, label: string }[]>(() => {
+    return (article.categories || []).map(id => {
+      const category = categoryOptions.find(cat => cat.value === id.toString());
+      return category || { value: id.toString(), label: `Category ${id}` };
+    });
+  });
+
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<FormData>({
-    resolver: yupResolver(validationSchema),
     defaultValues: {
-      title: article.title,
-      excerpt: article.excerpt,
-      description: article.description,
-      image_url: article.image_url,
-      small_image_url: article.small_image_url,
-    }
+      ...article,
+    },
   });
 
   const onSubmit = (data: FormData) => {
     const content = draftToHtml(convertToRaw(editorState.getCurrentContent()));
+    const categoryIds = selectedCategories.map(category => category.value);
     const formData = {
       ...data,
       content,
+      categories: categoryIds,
     };
+  
     Inertia.put(`/admin/articles/${article.id}`, formData, {
       onSuccess: () => alert("Article updated successfully"),
       onError: (formErrors) => console.error("Form submission failed", formErrors),
@@ -84,10 +88,25 @@ const EditArticle: React.FC = () => {
     setEditorState(state);
   };
 
+  const handleCategoryChange = (
+    newValue: MultiValue<{ value: string; label: string }>,
+    actionMeta: ActionMeta<{ value: string; label: string }>
+  ) => {
+    setSelectedCategories(newValue as { value: string; label: string }[]);
+  };
+
+  useEffect(() => {
+    setValue("title", article.title);
+    setValue("excerpt", article.excerpt);
+    setValue("description", article.description);
+    setValue("image_url", article.image_url);
+    setValue("small_image_url", article.small_image_url);
+  }, [article, setValue]);
+
   return (
     <AdminLayout>
       <div>
-        <Topic>EDIT ARTICLE</Topic>
+        <Topic><div className="text-xl font-bold">Edit Article</div></Topic>
         <form onSubmit={handleSubmit(onSubmit)} className="max-w-2xl mx-auto">
           <div className="mb-4">
             <Input
@@ -96,7 +115,10 @@ const EditArticle: React.FC = () => {
               type="text"
               placeholder="Title"
               error={errors.title}
-              register={register("title")}
+              register={register("title", {
+                required: "Title is required",
+                maxLength: { value: 64, message: "Title must be at most 64 characters" },
+              })}
             />
           </div>
           <div className="mb-4">
@@ -106,7 +128,10 @@ const EditArticle: React.FC = () => {
               type="text"
               placeholder="Excerpt"
               error={errors.excerpt}
-              register={register("excerpt")}
+              register={register("excerpt", {
+                required: "Excerpt is required",
+                maxLength: { value: 64, message: "Excerpt must be at most 64 characters" },
+              })}
             />
           </div>
           <div className="mb-4">
@@ -116,7 +141,10 @@ const EditArticle: React.FC = () => {
               type="text"
               placeholder="Description"
               error={errors.description}
-              register={register("description")}
+              register={register("description", {
+                required: "Description is required",
+                maxLength: { value: 64, message: "Description must be at most 64 characters" },
+              })}
             />
           </div>
           <div className="mb-4">
@@ -126,7 +154,9 @@ const EditArticle: React.FC = () => {
               type="text"
               placeholder="Image URL"
               error={errors.image_url}
-              register={register("image_url")}
+              register={register("image_url", {
+                maxLength: { value: 64, message: "Image URL must be at most 64 characters" },
+              })}
             />
           </div>
           <div className="mb-4">
@@ -136,8 +166,23 @@ const EditArticle: React.FC = () => {
               type="text"
               placeholder="Small Image URL"
               error={errors.small_image_url}
-              register={register("small_image_url")}
+              register={register("small_image_url", {
+                maxLength: { value: 64, message: "Small Image URL must be at most 64 characters" },
+              })}
             />
+          </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-1" htmlFor="categories">
+              Categories
+            </label>
+            <Select
+              isMulti
+              options={categoryOptions}
+              value={selectedCategories}
+              onChange={handleCategoryChange}
+              classNamePrefix="react-select"
+            />
+            {errors.categories && <p className="text-red-500 text-xs mt-1">{errors.categories.message}</p>}
           </div>
           <div className="mb-4">
             <label className="block text-sm font-medium mb-1" htmlFor="content">
@@ -150,9 +195,12 @@ const EditArticle: React.FC = () => {
               editorClassName="demo-editor"
             />
           </div>
-          <Button type="submit" variant="default">
+          {/* <Button type="submit" variant="default">
             Update Article
-          </Button>
+          </Button> */}
+          <button type="submit" className="btn btn-primary mr-2">
+            Update Article
+          </button>
         </form>
       </div>
     </AdminLayout>
