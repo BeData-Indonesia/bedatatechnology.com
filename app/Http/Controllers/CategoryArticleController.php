@@ -19,7 +19,7 @@ class CategoryArticleController extends Controller
     public function create()
     {
         $categories = CategoryArticle::all();
-        return Inertia::render('admin/articles/create', ['categories' => $categories]);
+        return Inertia::render('admin/articles/category/create', ['categories' => $categories]);
     }
 
     public function store(Request $request)
@@ -32,10 +32,10 @@ class CategoryArticleController extends Controller
         return redirect()->route('categories.index')->with('message', 'Category created successfully');
     }
 
-    public function edit(Article $article)
+    public function edit(CategoryArticle $category)
     {
         $categories = CategoryArticle::all();
-        return Inertia::render('admin/articles/edit', ['article' => $article, 'categories' => $categories]);
+        return Inertia::render('admin/articles/category/edit', ['category' => $category]);
     }
 
     public function update(Request $request, CategoryArticle $category)
