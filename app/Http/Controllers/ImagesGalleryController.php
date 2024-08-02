@@ -2,22 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\ImagesGallery;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Inertia\Inertia;
 
 class ImagesGalleryController extends Controller
 {
     public function index()
     {
         $imagesGallery = ImagesGallery::all();
-        return inertia('admin/images_gallery/index', ['imagesGallery' => $imagesGallery]);
+        return Inertia::render('admin/images_gallery/index', ['imagesGallery' => $imagesGallery]);
+    }
+
+    public function fetchImagesForArticleCreation()
+    {
+        $imagesGallery = ImagesGallery::all();
+        $imagesGallery = $imagesGallery->map(function ($image) {
+            $image->path = asset('storage/' . $image->path);
+            return $image;
+        });
+
+        return Inertia::render('admin/articles/create', [
+            'imagesGallery' => $imagesGallery,
+        ]);
     }
 
     public function create()
     {
-        return inertia('admin/images_gallery/create');
+        return Inertia::render('admin/images_gallery/create');
     }
 
     public function store(Request $request)

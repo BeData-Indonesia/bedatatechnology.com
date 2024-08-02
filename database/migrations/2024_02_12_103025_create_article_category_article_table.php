@@ -18,13 +18,13 @@ class CreateArticleCategoryArticleTable extends Migration
             $table->unsignedBigInteger('article_id');
             $table->unsignedBigInteger('category_article_id');
             $table->foreign('article_id')
-            ->references('id')
-            ->on('articles')
-            ->onCascade('delete');
+                ->references('id')
+                ->on('articles')
+                ->onDelete('cascade');
             $table->foreign('category_article_id')
-            ->references('id')
-            ->on('category_articles')
-            ->onCascade('delete');
+                ->references('id')
+                ->on('category_articles')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }
